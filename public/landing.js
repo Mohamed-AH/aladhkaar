@@ -319,6 +319,15 @@
       el.textContent = quranText(el.dataset.q) || el.dataset.en;
     });
     
+    // Arabic gets the ready card without English; every other language gets Arabic + English.
+    document.querySelectorAll("[data-ar-href]").forEach(el => {
+      if (!el.dataset.enHref) el.dataset.enHref = el.getAttribute("href");
+      el.setAttribute("href", lang === "ar" ? el.dataset.arHref : el.dataset.enHref);
+    });
+    document.querySelectorAll("[data-ar-src]").forEach(el => {
+      if (!el.dataset.enSrc) el.dataset.enSrc = el.getAttribute("src");
+      el.setAttribute("src", lang === "ar" ? el.dataset.arSrc : el.dataset.enSrc);
+    });
     document.getElementById("lang").value = lang;
     document.getElementById("langCode").textContent = lang.toUpperCase();
     fill();
