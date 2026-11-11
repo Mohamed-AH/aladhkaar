@@ -16,7 +16,7 @@ aladhkaar/
     api/share.js     makes short share links
     c/[id].js        opens a short link
   schema.sql         database tables
-  wrangler.toml      project settings (no secrets in here)
+  wrangler.example.toml   copy to wrangler.toml (git-ignored) and add your database_id
 ```
 
 ## 1. One-time setup on your computer
@@ -36,7 +36,7 @@ A browser window opens. Sign in to Cloudflare and allow access.
 npx wrangler d1 create aladhkaar
 ```
 
-It prints a `database_id`. Paste it into `wrangler.toml` in place of `PASTE_DATABASE_ID_HERE`, then create the tables:
+It prints a `database_id`. Copy `wrangler.example.toml` to `wrangler.toml` (it is git-ignored, so it stays private) and paste the ID into it in place of `PASTE_DATABASE_ID_HERE`, then create the tables:
 
 ```bash
 npx wrangler d1 execute aladhkaar --remote --file=schema.sql

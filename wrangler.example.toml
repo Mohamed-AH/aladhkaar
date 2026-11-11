@@ -1,3 +1,5 @@
+# Copy this file to wrangler.toml and paste your D1 database_id there.
+# wrangler.toml is git-ignored so your real ID never lands in this public repo.
 # Cloudflare Pages project for aladhkaar.com
 # Secrets (TO_EMAIL, RESEND_API_KEY, TURNSTILE_SECRET, ADMIN_TOKEN, IP_SALT) are NOT kept here.
 # Set them with:  npx wrangler pages secret put NAME --project-name adhkar-maker
