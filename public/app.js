@@ -87,10 +87,10 @@
       exPdf: "حفظ PDF", exPdfSub: "كل الصفحات في ملف واحد بجودة الطباعة.",
       exPng: "حفظ صورة", exPngSub: "صورة لكل صفحة، للمشاركة أو خلفية للجوال.",
       exPrint: "طباعة", exPrintSub: "يفتح إعدادات الطابعة. فعّل طباعة الخلفيات.",
-      exSummary: (size, n) => `${size} · ${n === 1 ? "صفحة واحدة" : toArDigits(n) + " صفحات"}`,
+      exSummary: (size, n) => `${size} · ${n === 1 ? "صفحة واحدة" : n === 2 ? "صفحتان" : toArDigits(n) + (n <= 10 ? " صفحات" : " صفحة")}`,
       exWorking: (i, n) => `تجهيز الصفحة ${toArDigits(i)} من ${toArDigits(n)}…`, exDone: "تم. تحقق من التنزيلات.", exFail: "تعذّر الحفظ. حاول مرة أخرى أو استخدم الطباعة.",
       pageLabel: "حجم الصفحة", textSizeLabel: "حجم الخط", sizeFit: "ملاءمة الصفحات", fitPagesLabel: "عدد الصفحات", fewer: "صفحات أقل", more: "صفحات أكثر", sizeM: "متوسط", sizeL: "كبير", sizeXL: "كبير جدًا",
-      pagesNote: n => n === 1 ? "في صفحة واحدة." : `موزعة على ${toArDigits(n)} صفحات.`, designsLabel: "تصاميم جاهزة", multicolorLabel: "أذكار ملوّنة", placeBottom: "أسفل", titleFontLabel: "خط العنوان",
+      pagesNote: n => n === 1 ? "في صفحة واحدة." : n === 2 ? "موزعة على صفحتين." : `موزعة على ${toArDigits(n)} ${n <= 10 ? "صفحات" : "صفحة"}.`, designsLabel: "تصاميم جاهزة", multicolorLabel: "أذكار ملوّنة", placeBottom: "أسفل", titleFontLabel: "خط العنوان",
       figHint: "اسحب الشخصية في المعاينة لنقلها إلى أي جانب.", skinLight: "فاتح", skinMedium: "متوسط", skinDeep: "داكن",
       pageOf: (i, n) => `صفحة ${toArDigits(i)} من ${toArDigits(n)}`, languageLabel: "اللغة"
     }
