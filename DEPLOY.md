@@ -130,3 +130,22 @@ Until you do this, use `adhkar-maker.pages.dev` everywhere (for example `adhkar-
 4. Add `www.aladhkaar.com` the same way so both addresses work.
 
 Moving DNS to Cloudflare also makes the Resend email setup (step 6) one click.
+
+## Quick update (every time)
+
+1. Download `aladhkaar-update.zip` to your Downloads folder.
+2. In Git Bash run:
+
+```
+bash /d/aladhkaar/deploy.sh
+```
+
+The script takes the newest `aladhkaar-update*.zip` from Downloads, copies it over
+`D:\aladhkaar` (your `wrangler.toml` is never touched) and deploys with
+`npx wrangler pages deploy --branch main`.
+
+Shortcut: run this once and from then on just type `deploy-adhkar`:
+
+```
+echo "alias deploy-adhkar='bash /d/aladhkaar/deploy.sh'" >> ~/.bashrc && source ~/.bashrc
+```
