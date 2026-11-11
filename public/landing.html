@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--BODY-START-->
+<title>Adhkar Maker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Morning and evening adhkar from the Quran and authentic Sunnah, on a card you print and keep. Get the ready card or make your own.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --bg:#f6f4ef; --paper:#fffdf8; --band:#efeadf; --ink:#1d1e20; --ink-2:#55585c; --ink-3:#85878c;
+  --line:#e3dfd6; --accent:#1f6f5c; --accent-ink:#fff; --accent-soft:#e2efe9; --gold:#9a7b3c;
+  --shadow:0 1px 2px rgb(20 20 20/.05),0 18px 40px rgb(20 20 20/.10);
+  --ui:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ar:"Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
+  --head:"El Messiri","IBM Plex Sans Arabic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16171a; --paper:#1f2024; --band:#1b1d20; --ink:#ecebe7; --ink-2:#b3b4b8; --ink-3:#85878c;
+  --line:#2f3137; --accent:#5cc3a6; --accent-ink:#0d2a22; --accent-soft:#1d3530; --gold:#d2b26e;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 18px 40px rgb(0 0 0/.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16171a; --paper:#1f2024; --band:#1b1d20; --ink:#ecebe7; --ink-2:#b3b4b8; --ink-3:#85878c;
+  --line:#2f3137; --accent:#5cc3a6; --accent-ink:#0d2a22; --accent-soft:#1d3530; --gold:#d2b26e;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 18px 40px rgb(0 0 0/.4); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--ui);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.ar{font-family:var(--ar);direction:rtl;unicode-bidi:isolate}
+.ref{font-size:13px;color:var(--ink-3);letter-spacing:.01em}
+.ref bdi{unicode-bidi:isolate}
+h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.2;text-wrap:balance;margin:0}
+h2{font-size:clamp(26px,3.4vw,34px)}
+h3{font-size:19px;font-weight:500}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.lede{color:var(--ink-2);max-width:60ch;margin:0}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none;color:var(--ink)}
+.brand svg{width:24px;height:24px;color:var(--accent)}
+.brand .ar{font-size:20px;color:var(--ink-2);font-weight:400}
+.top nav{display:flex;align-items:center;gap:8px}
+.lang{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 12px;font:inherit;font-size:14px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:12px;font:600 15px/1 var(--ui);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{background:var(--paper);color:var(--ink);border-color:var(--line)}
+.btn svg{width:18px;height:18px}
+.btn-sm{min-height:38px;padding:0 14px;font-size:14px;border-radius:10px}
+
+/* hero */
+.hero{padding-block:56px 72px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero-text{display:grid;gap:22px;min-width:0}
+.ayah{margin:0;display:grid;gap:10px}
+.ayah .ar{font-size:clamp(34px,5vw,52px);line-height:1.5;color:var(--accent)}
+.ayah .en{font-family:var(--head);font-size:clamp(22px,2.6vw,28px);line-height:1.3;font-weight:500}
+.salaf{border-inline-start:3px solid var(--gold);padding-inline-start:16px;display:grid;gap:6px;margin:0}
+.salaf .ar{font-size:21px;line-height:1.8;color:var(--ink)}
+.salaf p{margin:0;color:var(--ink-2);font-size:15px}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.continue{font-size:14px;color:var(--ink-2)}
+.continue[hidden]{display:none}
+
+.stack{position:relative;aspect-ratio:1/1.08;max-width:460px;width:100%;justify-self:center}
+.stack img{position:absolute;width:68%;aspect-ratio:210/297;object-fit:cover;border-radius:6px;box-shadow:var(--shadow);background:#fff}
+.stack img:nth-child(1){left:2%;top:6%;transform:rotate(-5deg)}
+.stack img:nth-child(2){right:2%;top:0;transform:rotate(4deg)}
+.stack .tag{position:absolute;left:50%;bottom:0;transform:translateX(-50%);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--ink-2);white-space:nowrap;box-shadow:var(--shadow)}
+
+/* sections */
+section{padding-block:72px}
+.band{background:var(--band);border-block:1px solid var(--line)}
+.head{display:grid;gap:10px;margin-bottom:36px}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:8px;align-content:start}
+.step .n{font-family:var(--head);font-size:15px;color:var(--accent);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);font-weight:700}
+.step p{margin:0;color:var(--ink-2)}
+
+.proofs{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.proof{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;gap:12px;align-content:start;min-width:0}
+.proof .ar{font-size:25px;line-height:1.85}
+.proof .en{margin:0;color:var(--ink-2)}
+.proof.wide{grid-column:1/-1;text-align:center;justify-items:center;padding:36px 26px}
+.proof.wide .ar{font-size:clamp(28px,3.6vw,36px);color:var(--accent)}
+
+.habit{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+.habit .proof{background:transparent;border:0;padding:0}
+.habit .proof .ar{font-size:34px;color:var(--accent)}
+.tips{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.tips li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.tips li:last-child{border-bottom:0}
+.tips svg{width:22px;height:22px;color:var(--accent);margin-top:2px}
+.tips b{display:block;font-weight:600}
+.tips span{color:var(--ink-2)}
+
+.times{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
+.time{border-radius:16px;padding:22px;display:grid;gap:6px;border:1px solid var(--line);background:var(--paper)}
+.time .ar{font-size:24px;color:var(--accent)}
+.time p{margin:0;color:var(--ink-2);font-size:15px}
+
+.family{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.family .proof{background:var(--paper)}
+
+.sources{columns:2;column-gap:40px;margin:0;padding:0;list-style:none;font-size:14px;color:var(--ink-2)}
+.sources li{break-inside:avoid;padding:8px 0;border-bottom:1px dashed var(--line)}
+.sources .ar{font-size:16px}
+
+.cta-end{text-align:center;display:grid;gap:18px;justify-items:center}
+.cta-end .ar{font-size:30px;color:var(--accent)}
+
+footer{border-top:1px solid var(--line);padding-block:28px 40px;font-size:14px;color:var(--ink-2)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+footer a{color:var(--ink-2);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+.saw{font-family:var(--ar);font-weight:400;font-size:.8em}
+.proof .who{font-size:13px;font-weight:600;color:var(--gold)}
+.proof.rot{transition:opacity .25s}
+.proof.rot.fade{opacity:0}
+.more{display:flex;justify-content:center;margin-top:20px}
+.mockbar{background:var(--gold);color:#fff;font-size:13px;text-align:center;padding:7px 16px}
+
+@media (max-width:860px){
+  .hero{padding-block:32px 48px}
+  .hero .wrap,.habit,.family{grid-template-columns:1fr;gap:32px}
+  .stack{max-width:360px}
+  .steps{grid-template-columns:1fr}
+  .proofs{grid-template-columns:1fr}
+  .sources{columns:1}
+  section{padding-block:52px}
+  .brand .ar{display:none}
+}
+@media (max-width:420px){
+  .times{grid-template-columns:1fr}
+  .ctas .btn{flex:1 1 100%}
+  .top nav .btn{display:none}
+}
+</style>
+
+<div class="mockbar">Preview for review. Not live yet.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l3.1 6.6L26 6l-2.6 6.9L30 16l-6.6 3.1L26 26l-6.9-2.6L16 30l-3.1-6.6L6 26l2.6-6.9L2 16l6.6-3.1L6 6l6.9 2.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="16" r="4.2" fill="currentColor"/></svg>
+      <span>Adhkar Maker</span><span class="ar">صانع الأذكار</span>
+    </a>
+    <nav>
+      <select class="lang" aria-label="Language">
+        <option>English</option><option>العربية</option><option>اردو</option><option>Indonesia</option><option>Melayu</option><option>Türkçe</option><option>Français</option><option>বাংলা</option>
+      </select>
+      <a class="btn btn-primary btn-sm" href="make">Make a card</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Hero -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-text">
+        <span class="eyebrow">Morning &amp; evening adhkar</span>
+        <figure class="ayah">
+          <div class="ar" lang="ar">فَاذْكُرُونِي أَذْكُرْكُمْ</div>
+          <div class="en">“So remember Me; I will remember you.”</div>
+          <figcaption class="ref">Al-Baqarah 2:152</figcaption>
+        </figure>
+        <blockquote class="salaf">
+          <div class="ar" lang="ar">وَلَوْ لَمْ يَكُنْ فِي الذِّكْرِ إِلَّا هَذِهِ وَحْدَهَا لَكَفَى بِهَا فَضْلًا وَشَرَفًا</div>
+          <p>“If there were no other virtue in dhikr except this alone, it would be enough as a virtue and an honour.”</p>
+          <span class="ref">Ibn al-Qayyim, al-Wābil aṣ-Ṣayyib</span>
+        </blockquote>
+        <p class="lede">The adhkar of the morning and evening from the Quran and the authentic Sunnah, each with its source, on a card you print and keep where you will see it.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="ready/aladhkaar-morning-evening.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+            Get the ready card (PDF)
+          </a>
+          <a class="btn btn-ghost" href="make">Make your own</a>
+        </div>
+        <div class="continue" id="continue" hidden>You have a card in progress. <a href="make">Continue your card</a></div>
+        <div class="ref">Also as images: <a href="ready/aladhkaar-page-1.jpg" download>page 1</a> · <a href="ready/aladhkaar-page-2.jpg" download>page 2</a>. Free, no sign-up.</div>
+      </div>
+      <div class="stack">
+        <img src="ready/preview-1.jpg" alt="Page 1 of the ready morning and evening adhkar card">
+        <img src="ready/preview-2.jpg" alt="Page 2 of the ready card">
+        <span class="tag">23 adhkar · A4 · 2 pages · with sources</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. How it works -->
+  <section class="band">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">How it works</span>
+        <h2>A card on the wall, a habit in the heart</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><h3>Choose your card</h3><p>Take the ready card, or open the maker to pick which adhkar to include, their order, colours and size.</p></div>
+        <div class="step"><span class="n">2</span><h3>Print it or keep it on your phone</h3><p>Save as PDF or image. Put it where you pray, by the bed, or on the fridge for the family.</p></div>
+        <div class="step"><span class="n">3</span><h3>Read it at its time</h3><p>Morning after Fajr, evening after ʿAsr. The card stays the same, so the words soon become yours.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Why -->
+  <section>
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Why the morning and evening adhkar</span>
+        <h2>Commanded by Allah, kept by His Messenger <span class="saw" lang="ar">ﷺ</span></h2>
+      </div>
+      <div class="proofs">
+        <div class="proof">
+          <span class="who">Allah, the Exalted</span>
+          <div class="ar" lang="ar">يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا ﴿٤١﴾ وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا</div>
+          <p class="en">“O you who have believed, remember Allah with much remembrance, and exalt Him morning and afternoon.”</p>
+          <span class="ref">Al-Aḥzāb 33:41–42</span>
+        </div>
+        <div class="proof">
+          <span class="who">Allah, the Exalted</span>
+          <div class="ar" lang="ar">وَسَبِّحْ بِحَمْدِ رَبِّكَ قَبْلَ طُلُوعِ الشَّمْسِ وَقَبْلَ الْغُرُوبِ</div>
+          <p class="en">“And exalt [Allah] with praise of your Lord before the rising of the sun and before its setting.”</p>
+          <span class="ref">Qāf 50:39</span>
+        </div>
+        <div class="proof rot" data-pool="nass"></div>
+        <div class="proof rot" data-pool="salaf"></div>
+      </div>
+      <div class="more"><button class="btn btn-ghost btn-sm" id="another" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
+        Show other texts</button></div>
+    </div>
+  </section>
+
+  <!-- 4. Habit -->
+  <section class="band">
+    <div class="wrap habit">
+      <div class="proof">
+        <span class="eyebrow">Make it a habit</span>
+        <div class="ar" lang="ar">أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ</div>
+        <p class="en">“The most beloved of deeds to Allah are those done consistently, even if they are few.”</p>
+        <span class="ref">al-Bukhārī 6464, Muslim 783</span>
+      </div>
+      <div>
+        <ul class="tips">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Tie it to a prayer you already pray</b><span>Sit after Fajr and after ʿAsr before you reach for your phone.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><div><b>Start with what you can keep</b><span>Make a short card with a few adhkar, then add more once it holds. The maker lets you switch any off.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><div><b>Keep it in sight</b><span>A printed card where you pray is a reminder that needs no notification.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 11a4 4 0 1 0-8 0M3 21a6 6 0 0 1 9-5.2A6 6 0 0 1 21 21"/></svg><div><b>Read together</b><span>Reading aloud with the family helps everyone learn the words.</span></div></li>
+        </ul>
+        <div class="times">
+          <div class="time"><div class="ar" lang="ar">أذكار الصباح</div><p>Morning: after Fajr, before sunrise.</p></div>
+          <div class="time"><div class="ar" lang="ar">أذكار المساء</div><p>Evening: after ʿAsr, before sunset.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Families -->
+  <section>
+    <div class="wrap family">
+      <div class="head" style="margin:0">
+        <span class="eyebrow">For families and children</span>
+        <h2>Let the little ones grow up with these words</h2>
+        <p class="lede">Add a child figure making duʿāʾ, choose soft colours and bigger text, and put the card in their room. Children learn by hearing, so read it with them.</p>
+        <div class="ctas" style="margin-top:12px"><a class="btn btn-ghost" href="make">Design a card for your child</a></div>
+      </div>
+      <div class="proof">
+        <div class="ar" lang="ar">يَا أَيُّهَا الَّذِينَ آمَنُوا قُوا أَنفُسَكُمْ وَأَهْلِيكُمْ نَارًا</div>
+        <p class="en">“O you who have believed, protect yourselves and your families from a Fire.”</p>
+        <span class="ref">At-Taḥrīm 66:6</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Sources -->
+  <section class="band">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Our sources</span>
+        <h2>Only the Quran and authentic Sunnah</h2>
+        <p class="lede">Every dhikr on the card shows where it is narrated. We follow the understanding of the Salaf and include only what is established. If you find a mistake, please tell us.</p>
+      </div>
+      <ul class="sources">
+        <li>Al-Baqarah 2:152 · Al-Aḥzāb 33:41–42 · Qāf 50:39 · Ar-Raʿd 13:28 · At-Taḥrīm 66:6</li>
+        <li>Ṣaḥīḥ al-Bukhārī 6306, 6407, 6464</li>
+        <li>Ṣaḥīḥ Muslim 783, 2692, 2709, 2723, 2726</li>
+        <li>Sunan Abī Dāwūd 1517, 5067–5090</li>
+        <li>Jāmiʿ at-Tirmidhī 2572, 3388, 3391, 3392, 3575, 3577</li>
+        <li>Sunan Ibn Mājah 925, 3871 · Musnad Aḥmad · an-Nasāʾī (al-Kubrā) · al-Ḥākim · aṭ-Ṭabarānī</li>
+        <li>Ibn al-Qayyim, al-Wābil aṣ-Ṣayyib min al-Kalim aṭ-Ṭayyib</li>
+        <li>Translations of the meanings follow Saheeh International, lightly adapted.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. Closing CTA -->
+  <section>
+    <div class="wrap cta-end">
+      <h2>Start tomorrow morning</h2>
+      <p class="lede">Print the card tonight, keep it where you pray, and read it after Fajr.</p>
+      <div class="ctas" style="justify-content:center">
+        <a class="btn btn-primary" href="ready/aladhkaar-morning-evening.pdf" download>Get the ready card</a>
+        <a class="btn btn-ghost" href="make">Make your own</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>aladhkaar.com</span>
+    <nav>
+      <a href="make">Card maker</a>
+      <a href="make#suggest">Suggest a dhikr</a>
+      <a href="make#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+try { if (localStorage.getItem("adhkar-maker:v1")) document.getElementById("continue").hidden = false; } catch (e) {}
+
+// Rotating texts: one from the Quran and Sunnah, one from the Salaf. A new pair each day.
+(function () {
+  const slots = [...document.querySelectorAll(".proof.rot")];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  let data = null, step = Math.floor(Date.now() / 864e5);
+  const fill = () => slots.forEach(el => {
+    const pool = data[el.dataset.pool], q = pool[step % pool.length];
+    el.innerHTML = `<span class="who">${esc(q.who.en)}</span><div class="ar" lang="ar">${esc(q.ar)}</div><p class="en">${esc(q.en)}</p><span class="ref">${esc(q.ref.en)}</span>`;
+  });
+  fetch("data/quotes.json").then(r => r.json()).then(d => { data = d; fill(); }).catch(() => slots.forEach(el => el.hidden = true));
+  document.getElementById("another").addEventListener("click", () => {
+    if (!data) return; step++;
+    slots.forEach(el => el.classList.add("fade"));
+    setTimeout(() => { fill(); slots.forEach(el => el.classList.remove("fade")); }, 250);
+  });
+})();
+</script>
+<!--BODY-END-->
+</head>
+</html>
