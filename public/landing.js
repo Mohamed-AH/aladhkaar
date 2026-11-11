@@ -320,6 +320,7 @@
     });
     
     document.getElementById("lang").value = lang;
+    document.getElementById("langCode").textContent = lang.toUpperCase();
     fill();
   }
 

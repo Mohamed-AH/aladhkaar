@@ -170,3 +170,10 @@ html[dir="rtl"] body{font-family:"IBM Plex Sans Arabic",var(--ui)}
 html[dir="rtl"] .eyebrow, html[dir="rtl"] .kind{letter-spacing:0}
 html[dir="rtl"] .stack img:nth-child(1){left:auto;right:2%;transform:rotate(5deg)}
 html[dir="rtl"] .stack img:nth-child(2){right:auto;left:2%;transform:rotate(-4deg)}
+
+/* Language picker: same globe pill as the card maker. The real select covers it so the native list opens. */
+.lang-pick{position:relative;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;letter-spacing:.04em;min-height:38px;color:var(--ink-2);cursor:pointer}
+.lang-pick svg{width:17px;height:17px;color:var(--accent)}
+.lang-pick:hover,.lang-pick:focus-within{border-color:var(--ink-3)}
+.lang-pick:focus-within{box-shadow:0 0 0 3px var(--accent-soft)}
+.lang-pick select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;font-size:16px}
