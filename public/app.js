@@ -106,6 +106,7 @@
   ].filter(l => I18N[l.id]);
   const isRTL = l => (LANGS.find(x => x.id === l) || {}).rtl === true;
   function pickLang() {
+    try { const saved = localStorage.getItem("aladhkaar:lang"); if (saved && I18N[saved]) return saved; } catch (_) {}
     for (const n of navigator.languages || [navigator.language || "en"]) {
       const code = String(n).toLowerCase().split("-")[0];
       if (I18N[code]) return code;
@@ -623,7 +624,7 @@
 
   /* ---------- Events ---------- */
   function bind() {
-    $("#langSelect").addEventListener("change", e => { state.lang = e.target.value; save(); applyLang(); render(); });
+    $("#langSelect").addEventListener("change", e => { state.lang = e.target.value; try { localStorage.setItem("aladhkaar:lang", state.lang); } catch (_) {} save(); applyLang(); render(); });
     $("#titleInput").addEventListener("input", e => {
       const v = e.target.value;
       state.title = v.trim() === "" || v === autoTitle()[titleLang()] ? null : v;
@@ -725,7 +726,7 @@
   function cardLink() {
     const card = compactState(), key = JSON.stringify(card);
     if (Object.keys(card).length <= 1) return Promise.resolve(siteBase());
-    const long = siteBase() + "#card=" + enc(card);
+    const long = siteBase() + "make#card=" + enc(card);
     if (!onSite()) return Promise.resolve(long);
     if (!shortCache.has(key)) {
       shortCache.set(key, fetch("/api/share", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ card }) })
@@ -797,6 +798,12 @@
       setTimeout(() => $("#contactMsg").focus(), 50);
     };
     all("[data-contact]").forEach(b => b.addEventListener("click", () => open(b.dataset.contact)));
+    // Links from the home page: /make#suggest and /make#contact open this form.
+    if (location.hash === "#suggest" || location.hash === "#contact") {
+      const v = location.hash === "#suggest" ? "dhikr" : "idea";
+      history.replaceState(null, "", location.pathname + location.search);
+      setTimeout(() => open(v), 300);
+    }
     all("#contactType [data-type]").forEach(b => b.addEventListener("click", () => setType(b.dataset.type)));
     $("#contactClose").addEventListener("click", () => dlg.close());
     $("#contactAnother").addEventListener("click", () => { reset(); setType(type); $("#contactMsg").focus(); });

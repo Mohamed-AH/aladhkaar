@@ -1,4 +1,4 @@
-/* GET /c/<id>: open a shared card. Looks up the design and sends the visitor to the editor with it. */
+/* GET /c/<id>: open a shared card. Looks up the design and sends the visitor to the card maker (/make) with it. */
 
 function base64url(text) {
   const bytes = new TextEncoder().encode(text);
@@ -8,7 +8,7 @@ function base64url(text) {
 }
 
 export async function onRequestGet({ params, env, request }) {
-  const home = new URL("/", request.url);
+  const home = new URL("/make", request.url);
   const id = String(params.id || "");
   if (!/^[a-z0-9]{4,12}$/.test(id) || !env.DB) return Response.redirect(home.href, 302);
   const row = await env.DB.prepare("SELECT card FROM shares WHERE id = ?").bind(id).first();

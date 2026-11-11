@@ -2,7 +2,7 @@
   "name": "Adhkar Maker · صانع الأذكار",
   "short_name": "Adhkar",
   "description": "Make your own printable adhkar card.",
-  "start_url": "./",
+  "start_url": "make",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f6f4ef",

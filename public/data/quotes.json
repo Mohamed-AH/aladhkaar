@@ -1,0 +1,175 @@
+{
+ "note": "Rotating texts for the landing page. Only add texts whose wording and source have been checked.",
+ "nass": [
+  {
+   "id": "q13-28",
+   "who": {
+    "en": "Allah, the Exalted, says",
+    "ar": "قال الله تعالى"
+   },
+   "ar": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+   "en": "“Unquestionably, by the remembrance of Allah hearts are assured.”",
+   "ref": {
+    "en": "Ar-Raʿd 13:28",
+    "ar": "الرعد ٢٨"
+   },
+   "kind": "quran"
+  },
+  {
+   "id": "b6407",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "مَثَلُ الَّذِي يَذْكُرُ رَبَّهُ وَالَّذِي لَا يَذْكُرُ رَبَّهُ مَثَلُ الْحَيِّ وَالْمَيِّتِ",
+   "en": "“The example of the one who remembers his Lord and the one who does not is like that of the living and the dead.”",
+   "ref": {
+    "en": "al-Bukhārī 6407",
+    "ar": "البخاري ٦٤٠٧"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "t3377",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "أَلَا أُنَبِّئُكُمْ بِخَيْرِ أَعْمَالِكُمْ، وَأَزْكَاهَا عِنْدَ مَلِيكِكُمْ، وَأَرْفَعِهَا فِي دَرَجَاتِكُمْ، وَخَيْرٍ لَكُمْ مِنْ إِنْفَاقِ الذَّهَبِ وَالْوَرِقِ، وَخَيْرٍ لَكُمْ مِنْ أَنْ تَلْقَوْا عَدُوَّكُمْ فَتَضْرِبُوا أَعْنَاقَهُمْ وَيَضْرِبُوا أَعْنَاقَكُمْ؟ قَالُوا: بَلَى. قَالَ: ذِكْرُ اللَّهِ تَعَالَى",
+   "en": "“Shall I not tell you of the best of your deeds, the purest of them with your Master, the highest of them in raising your ranks, better for you than spending gold and silver, and better for you than meeting your enemy and striking their necks while they strike yours?” They said: Yes. He said: “The remembrance of Allah, the Exalted.”",
+   "ref": {
+    "en": "at-Tirmidhī 3377, Ibn Mājah 3790 · ṣaḥīḥ (al-Albānī)",
+    "ar": "الترمذي ٣٣٧٧، ابن ماجه ٣٧٩٠ · صححه الألباني"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "b7405",
+   "who": {
+    "en": "The Prophet ﷺ said that Allah says",
+    "ar": "قال النبي ﷺ: يقول الله تعالى"
+   },
+   "ar": "أَنَا عِنْدَ ظَنِّ عَبْدِي بِي، وَأَنَا مَعَهُ إِذَا ذَكَرَنِي، فَإِنْ ذَكَرَنِي فِي نَفْسِهِ ذَكَرْتُهُ فِي نَفْسِي، وَإِنْ ذَكَرَنِي فِي مَلَإٍ ذَكَرْتُهُ فِي مَلَإٍ خَيْرٍ مِنْهُمْ",
+   "en": "“I am as My servant thinks of Me, and I am with him when he remembers Me. If he remembers Me within himself, I remember him within Myself; and if he remembers Me in a gathering, I remember him in a gathering better than theirs.”",
+   "ref": {
+    "en": "al-Bukhārī 7405, Muslim 2675",
+    "ar": "البخاري ٧٤٠٥، مسلم ٢٦٧٥"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "b6682",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
+   "en": "“Two words are light on the tongue, heavy on the Scale, and beloved to the Most Merciful: Subḥāna-llāhi wa bi-ḥamdih, Subḥāna-llāhi-l-ʿAẓīm.”",
+   "ref": {
+    "en": "al-Bukhārī 6682, Muslim 2694",
+    "ar": "البخاري ٦٦٨٢، مسلم ٢٦٩٤"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "t3462",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "لَقِيتُ إِبْرَاهِيمَ لَيْلَةَ أُسْرِيَ بِي فَقَالَ: يَا مُحَمَّدُ، أَقْرِئْ أُمَّتَكَ مِنِّي السَّلَامَ، وَأَخْبِرْهُمْ أَنَّ الْجَنَّةَ طَيِّبَةُ التُّرْبَةِ، عَذْبَةُ الْمَاءِ، وَأَنَّهَا قِيعَانٌ، وَأَنَّ غِرَاسَهَا: سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ",
+   "en": "“I met Ibrāhīm on the night I was taken by night, and he said: O Muḥammad, convey my salām to your Ummah, and tell them that Paradise has pure soil and sweet water, that it is an empty plain, and that its plants are: Subḥāna-llāh, wal-ḥamdu lillāh, wa lā ilāha illa-llāh, wa-llāhu akbar.”",
+   "ref": {
+    "en": "at-Tirmidhī 3462 · ḥasan (al-Albānī, aṣ-Ṣaḥīḥah 105)",
+    "ar": "الترمذي ٣٤٦٢ · حسنه الألباني، الصحيحة ١٠٥"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "m2137",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "أَحَبُّ الْكَلَامِ إِلَى اللَّهِ أَرْبَعٌ: سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، لَا يَضُرُّكَ بِأَيِّهِنَّ بَدَأْتَ",
+   "en": "“The most beloved words to Allah are four: Subḥāna-llāh, wal-ḥamdu lillāh, wa lā ilāha illa-llāh, wa-llāhu akbar. It does not matter which of them you begin with.”",
+   "ref": {
+    "en": "Muslim 2137",
+    "ar": "مسلم ٢١٣٧"
+   },
+   "kind": "hadith"
+  },
+  {
+   "id": "b6384",
+   "who": {
+    "en": "The Prophet ﷺ said",
+    "ar": "قال النبي ﷺ"
+   },
+   "ar": "أَلَا أَدُلُّكَ عَلَى كَنْزٍ مِنْ كُنُوزِ الْجَنَّةِ؟ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+   "en": "“Shall I not guide you to a treasure from the treasures of Paradise? Lā ḥawla wa lā quwwata illā billāh.”",
+   "ref": {
+    "en": "al-Bukhārī 6384, Muslim 2704",
+    "ar": "البخاري ٦٣٨٤، مسلم ٢٧٠٤"
+   },
+   "kind": "hadith"
+  }
+ ],
+ "salaf": [
+  {
+   "id": "muadh",
+   "who": {
+    "en": "Muʿādh ibn Jabal رضي الله عنه",
+    "ar": "قال معاذ بن جبل رضي الله عنه"
+   },
+   "ar": "مَا عَمِلَ آدَمِيٌّ عَمَلًا أَنْجَى لَهُ مِنْ عَذَابِ اللَّهِ مِنْ ذِكْرِ اللَّهِ",
+   "en": "“No son of Ādam does a deed that saves him more from the punishment of Allah than the remembrance of Allah.”",
+   "ref": {
+    "en": "Muwaṭṭaʾ Mālik",
+    "ar": "موطأ مالك"
+   },
+   "kind": "salaf"
+  },
+  {
+   "id": "ibn-uyaynah",
+   "who": {
+    "en": "Sufyān ibn ʿUyaynah رحمه الله",
+    "ar": "قال سفيان بن عيينة رحمه الله"
+   },
+   "ar": "مَا أَنْعَمَ اللَّهُ عَلَى الْعِبَادِ نِعْمَةً أَعْظَمَ مِنْ أَنْ عَرَّفَهُمْ لَا إِلَهَ إِلَّا اللَّهُ",
+   "en": "“Allah has not given His servants any blessing greater than making them know lā ilāha illa-llāh.”",
+   "ref": {
+    "en": "Ibn Rajab, Kalimat al-Ikhlāṣ",
+    "ar": "ابن رجب، كلمة الإخلاص"
+   },
+   "kind": "salaf"
+  },
+  {
+   "id": "ibn-taymiyyah",
+   "who": {
+    "en": "Ibn Taymiyyah رحمه الله",
+    "ar": "قال شيخ الإسلام ابن تيمية رحمه الله"
+   },
+   "ar": "الذِّكْرُ لِلْقَلْبِ مِثْلُ الْمَاءِ لِلسَّمَكِ، فَكَيْفَ يَكُونُ حَالُ السَّمَكِ إِذَا فَارَقَ الْمَاءَ؟",
+   "en": "“Dhikr is to the heart like water to a fish. So what becomes of the fish when it leaves the water?”",
+   "ref": {
+    "en": "Ibn al-Qayyim, al-Wābil aṣ-Ṣayyib",
+    "ar": "ابن القيم، الوابل الصيب"
+   },
+   "kind": "salaf"
+  },
+  {
+   "id": "ibn-qayyim-qaswah",
+   "who": {
+    "en": "Ibn al-Qayyim رحمه الله",
+    "ar": "قال ابن القيم رحمه الله"
+   },
+   "ar": "فِي الْقَلْبِ قَسْوَةٌ لَا يُذِيبُهَا إِلَّا ذِكْرُ اللَّهِ تَعَالَى، فَيَنْبَغِي لِلْعَبْدِ أَنْ يُدَاوِيَ قَسْوَةَ قَلْبِهِ بِذِكْرِ اللَّهِ تَعَالَى",
+   "en": "“In the heart there is a hardness that nothing melts except the remembrance of Allah. So the servant should treat the hardness of his heart with the remembrance of Allah.”",
+   "ref": {
+    "en": "Ibn al-Qayyim, al-Wābil aṣ-Ṣayyib",
+    "ar": "ابن القيم، الوابل الصيب"
+   },
+   "kind": "salaf"
+  }
+ ]
+}
