@@ -21,3 +21,7 @@ CREATE TABLE IF NOT EXISTS shares (
   created_at INTEGER NOT NULL,
   opens      INTEGER NOT NULL DEFAULT 0
 );
+
+-- Rate limits and inbox lockouts (the site also creates this table on first use).
+CREATE TABLE IF NOT EXISTS hits (bucket TEXT NOT NULL, visitor TEXT NOT NULL, at INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_hits ON hits (bucket, visitor, at);

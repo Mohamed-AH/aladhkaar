@@ -13,7 +13,7 @@
       alsoImages: "Also as images:", page1: "page 1", page2: "page 2", free: "Free, no sign-up.",
       tag: "23 adhkar · A4 · 2 pages · with references", previewAlt: "The ready morning and evening adhkar card",
       howEyebrow: "How it works", howTitle: "A card on the wall, a habit in the heart",
-      s1h: "Choose your card", s1p: "Take the ready card, or open the maker to pick which adhkar to include, their order, colours and size.",
+      s1h: "Choose your card", s1p: "Take the ready card, or open the maker to pick which adhkar to include, their order, colors and size.",
       s2h: "Print it or keep it on your phone", s2p: "Save as PDF or image. Put it where you pray, by the bed, or on the fridge for the family.",
       s3h: "Read it at its time", s3p: "Morning after Fajr, evening after ʿAsr. The card stays the same, so the words soon become yours.",
       whyEyebrow: "Why the morning and evening adhkar", whyTitle: "Commanded by Allah, kept by His Messenger", another: "Show other texts",
@@ -25,13 +25,13 @@
       t4b: "Read together", t4s: "Reading aloud with the family helps everyone learn the words.",
       morning: "Morning: after Fajr, before sunrise.", evening: "Evening: after ʿAsr, before sunset.",
       famEyebrow: "For families and children", famTitle: "Let the little ones grow up with these words",
-      famLede: "Add a child figure making duʿāʾ, choose soft colours and bigger text, and put the card in their room. Children learn by hearing, so read it with them.",
+      famLede: "Add a child figure making duʿāʾ, choose soft colors and bigger text, and put the card in their room. Children learn by hearing, so read it with them.",
       famBtn: "Design a card for your child",
       srcEyebrow: "Our sources", srcTitle: "References",
       srcLede: "Following the way of scholars such as Ibn Kathīr, we give the reference for each text so you can look it up and check it yourself. Where we cite a grading, we name the scholar who gave it. If you find a mistake, please tell us.",
       srcTr: "Translations of the meanings: Quran from Saheeh International; hadith and the words of the Salaf in English.",
       endTitle: "Start tomorrow morning", endLede: "Print the card tonight, keep it where you pray, and read it after Fajr.", getCard: "Get the ready card",
-      fMaker: "Card maker", fSuggest: "Suggest a dhikr", fContact: "Contact"
+      fMaker: "Card maker", fSuggest: "Suggest a dhikr", fContact: "Contact", privacy: "Privacy: your cards stay in your browser. The contact form keeps your message, name, email and country only so we can reply, and messages are deleted after 12 months. A Cloudflare spam check runs on the form."
     },
     ar: {
       title: "صانع الأذكار · بطاقة أذكار الصباح والمساء",
@@ -59,7 +59,7 @@
       srcLede: "على طريقة أهل العلم كابن كثير، نذكر مصدر كل نص لتراجعه وتتحقق منه بنفسك. وإذا نقلنا حكمًا على حديث ذكرنا من قاله. وإن وجدت خطأ فأخبرنا.",
       srcTr: "",
       endTitle: "ابدأ من صباح الغد", endLede: "اطبع البطاقة الليلة، وضعها في مكان صلاتك، واقرأها بعد الفجر.", getCard: "حمّل البطاقة الجاهزة",
-      fMaker: "مصمّم البطاقات", fSuggest: "اقترح ذكرًا", fContact: "تواصل معنا"
+      fMaker: "مصمّم البطاقات", fSuggest: "اقترح ذكرًا", fContact: "تواصل معنا", privacy: "الخصوصية: بطاقاتك تبقى في متصفحك. نموذج التواصل يحفظ رسالتك واسمك وبريدك ودولتك للرد عليك فقط، وتُحذف الرسائل بعد ١٢ شهرًا. ويعمل في النموذج فحص Cloudflare لمنع الرسائل المزعجة."
     },
     ur: {
       title: "اذکار کارڈ ساز · صبح و شام کے اذکار کا کارڈ",
@@ -87,7 +87,7 @@
       srcLede: "ابن کثیر جیسے اہل علم کے طریقے پر ہم ہر عبارت کا حوالہ دیتے ہیں تاکہ آپ خود دیکھ کر تحقیق کر سکیں۔ جہاں کسی حدیث کا حکم نقل کریں، وہاں اس عالم کا نام دیتے ہیں۔ کوئی غلطی ملے تو ہمیں بتائیں۔",
       srcTr: "معانی کا ترجمہ: قرآن مولانا محمد جوناگڑھی (Quran.com سے)؛ احادیث اور اقوالِ سلف انگریزی میں۔",
       endTitle: "کل صبح سے شروع کریں", endLede: "آج رات کارڈ پرنٹ کریں، نماز کی جگہ رکھیں، اور فجر کے بعد پڑھیں۔", getCard: "تیار کارڈ لیں",
-      fMaker: "کارڈ ساز", fSuggest: "ذکر تجویز کریں", fContact: "رابطہ"
+      fMaker: "کارڈ ساز", fSuggest: "ذکر تجویز کریں", fContact: "رابطہ", privacy: "رازداری: آپ کے کارڈ آپ کے براؤزر ہی میں رہتے ہیں۔ رابطہ فارم آپ کا پیغام، نام، ای میل اور ملک صرف جواب دینے کے لیے رکھتا ہے، اور پیغامات 12 ماہ بعد حذف ہو جاتے ہیں۔ فارم میں Cloudflare کی اسپام جانچ چلتی ہے۔"
     },
     id: {
       title: "Pembuat Kartu Dzikir · Kartu dzikir pagi dan petang",
@@ -115,7 +115,7 @@
       srcLede: "Mengikuti cara para ulama seperti Ibnu Katsir, kami mencantumkan rujukan setiap teks agar Anda dapat memeriksanya sendiri. Jika kami menukil penilaian hadits, kami sebutkan ulama yang menilainya. Jika menemukan kesalahan, mohon kabari kami.",
       srcTr: "Terjemahan makna: Al-Qur'an dari King Fahad Quran Complex (via Quran.com); hadits dan perkataan Salaf dalam bahasa Inggris.",
       endTitle: "Mulai besok pagi", endLede: "Cetak kartunya malam ini, letakkan di tempat shalat, dan baca setelah Subuh.", getCard: "Ambil kartu siap pakai",
-      fMaker: "Pembuat kartu", fSuggest: "Usulkan dzikir", fContact: "Kontak"
+      fMaker: "Pembuat kartu", fSuggest: "Usulkan dzikir", fContact: "Kontak", privacy: "Privasi: kartu Anda tetap tersimpan di peramban Anda. Formulir kontak menyimpan pesan, nama, email, dan negara Anda hanya untuk membalas, dan pesan dihapus setelah 12 bulan. Pemeriksaan spam Cloudflare berjalan pada formulir ini."
     },
     ms: {
       title: "Pembuat Kad Zikir · Kad zikir pagi dan petang",
@@ -143,7 +143,7 @@
       srcLede: "Mengikut cara ulama seperti Ibnu Kathir, kami menyertakan rujukan setiap teks supaya anda boleh menyemaknya sendiri. Jika kami menukil hukum hadis, kami sebut ulama yang menilainya. Jika terdapat kesilapan, sila maklumkan kami.",
       srcTr: "Terjemahan makna: al-Quran oleh Abdullah Muhammad Basmeih (melalui Quran.com); hadis dan kata-kata Salaf dalam bahasa Inggeris.",
       endTitle: "Mula esok pagi", endLede: "Cetak kad malam ini, letak di tempat solat, dan baca selepas Subuh.", getCard: "Dapatkan kad sedia",
-      fMaker: "Pembuat kad", fSuggest: "Cadangkan zikir", fContact: "Hubungi"
+      fMaker: "Pembuat kad", fSuggest: "Cadangkan zikir", fContact: "Hubungi", privacy: "Privasi: kad anda kekal dalam pelayar anda. Borang hubungan menyimpan mesej, nama, e-mel dan negara anda hanya untuk membalas, dan mesej dipadam selepas 12 bulan. Semakan spam Cloudflare berjalan pada borang ini."
     },
     tr: {
       title: "Zikir Kartı Hazırla · Sabah ve akşam zikirleri kartı",
@@ -171,7 +171,7 @@
       srcLede: "İbn Kesîr gibi âlimlerin yolunu izleyerek her metnin kaynağını veriyoruz; böylece kendiniz bakıp kontrol edebilirsiniz. Bir hadis hükmü aktardığımızda o hükmü veren âlimi belirtiyoruz. Bir hata görürseniz lütfen bize bildirin.",
       srcTr: "Anlam çevirileri: Kur'an, Dar Al-Salam Center (Quran.com üzerinden); hadisler ve Selef'in sözleri İngilizce.",
       endTitle: "Yarın sabah başlayın", endLede: "Kartı bu gece yazdırın, namaz yerinize koyun ve Fecir'den sonra okuyun.", getCard: "Hazır kartı indir",
-      fMaker: "Kart hazırlayıcı", fSuggest: "Zikir önerin", fContact: "İletişim"
+      fMaker: "Kart hazırlayıcı", fSuggest: "Zikir önerin", fContact: "İletişim", privacy: "Gizlilik: kartlarınız tarayıcınızda kalır. İletişim formu mesajınızı, adınızı, e-postanızı ve ülkenizi yalnızca yanıt vermek için saklar; mesajlar 12 ay sonra silinir. Formda Cloudflare spam denetimi çalışır."
     },
     fr: {
       title: "Créateur d'adhkar · Carte des adhkar du matin et du soir",
@@ -199,7 +199,7 @@
       srcLede: "Suivant la voie de savants comme Ibn Kathîr, nous donnons la référence de chaque texte pour que vous puissiez la vérifier vous-même. Quand nous citons un jugement sur un hadith, nous nommons le savant qui l'a donné. Si vous trouvez une erreur, dites-le-nous.",
       srcTr: "Traduction des sens : le Coran selon Rashid Maash (via Quran.com) ; les hadiths et les paroles des Salaf en anglais.",
       endTitle: "Commencez demain matin", endLede: "Imprimez la carte ce soir, placez-la là où vous priez, et lisez-la après Fajr.", getCard: "Télécharger la carte prête",
-      fMaker: "Créateur de cartes", fSuggest: "Proposer un dhikr", fContact: "Contact"
+      fMaker: "Créateur de cartes", fSuggest: "Proposer un dhikr", fContact: "Contact", privacy: "Confidentialité : vos cartes restent dans votre navigateur. Le formulaire de contact garde votre message, votre nom, votre e-mail et votre pays uniquement pour vous répondre, et les messages sont supprimés après 12 mois. Une vérification anti-spam de Cloudflare fonctionne sur le formulaire."
     },
     bn: {
       title: "জিকির কার্ড মেকার · সকাল-সন্ধ্যার জিকির কার্ড",
@@ -227,7 +227,7 @@
       srcLede: "ইবনে কাসিরের মতো আলেমদের পদ্ধতি অনুসরণ করে আমরা প্রতিটি লেখার সূত্র দিই, যাতে আপনি নিজে দেখে যাচাই করতে পারেন। কোনো হাদিসের মান উল্লেখ করলে যে আলেম তা বলেছেন তাঁর নাম দিই। ভুল পেলে আমাদের জানান।",
       srcTr: "অর্থের অনুবাদ: কুরআন ড. আবু বকর মুহাম্মাদ যাকারিয়া (Quran.com থেকে); হাদিস ও সালাফের বাণী ইংরেজিতে।",
       endTitle: "আগামীকাল সকাল থেকে শুরু করুন", endLede: "আজ রাতে কার্ড ছাপান, নামাজের জায়গায় রাখুন, আর ফজরের পর পড়ুন।", getCard: "তৈরি কার্ড নিন",
-      fMaker: "কার্ড মেকার", fSuggest: "জিকির প্রস্তাব করুন", fContact: "যোগাযোগ"
+      fMaker: "কার্ড মেকার", fSuggest: "জিকির প্রস্তাব করুন", fContact: "যোগাযোগ", privacy: "গোপনীয়তা: আপনার কার্ড আপনার ব্রাউজারেই থাকে। যোগাযোগ ফর্ম আপনার বার্তা, নাম, ইমেইল ও দেশ শুধু উত্তর দেওয়ার জন্য রাখে, এবং ১২ মাস পরে বার্তা মুছে ফেলা হয়। ফর্মে Cloudflare-এর স্প্যাম যাচাই চলে।"
     }
   };
 
@@ -325,7 +325,8 @@
       el.setAttribute("href", lang === "ar" ? el.dataset.arHref : el.dataset.enHref);
     });
     document.querySelectorAll("[data-ar-src]").forEach(el => {
-      if (!el.dataset.enSrc) el.dataset.enSrc = el.getAttribute("src");
+      // The page sets no src at first, so only the images for the chosen language download.
+      if (!el.dataset.enSrc) el.dataset.enSrc = el.dataset.src || el.getAttribute("src");
       el.setAttribute("src", lang === "ar" ? el.dataset.arSrc : el.dataset.enSrc);
     });
     document.getElementById("lang").value = lang;

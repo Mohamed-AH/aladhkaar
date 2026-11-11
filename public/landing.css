@@ -1,7 +1,7 @@
 
 :root{
-  --bg:#f6f4ef; --paper:#fffdf8; --band:#efeadf; --ink:#1d1e20; --ink-2:#55585c; --ink-3:#85878c;
-  --line:#e3dfd6; --accent:#1f6f5c; --accent-ink:#fff; --accent-soft:#e2efe9; --gold:#9a7b3c; --gold-soft:#f3ead6; --salaf-soft:#ebe8e1;
+  --bg:#f6f4ef; --paper:#fffdf8; --band:#efeadf; --ink:#1d1e20; --ink-2:#55585c; --ink-3:#68696e;
+  --line:#e3dfd6; --accent:#1f6f5c; --accent-ink:#fff; --accent-soft:#e2efe9; --gold:#7a5f2a; --gold-soft:#f3ead6; --salaf-soft:#ebe8e1;
   --shadow:0 1px 2px rgb(20 20 20/.05),0 18px 40px rgb(20 20 20/.10);
   --ui:"IBM Plex Sans","IBM Plex Sans Arabic","Noto Sans Bengali",system-ui,-apple-system,"Segoe UI",sans-serif;
   --ar:"Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
@@ -36,7 +36,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none;color:var(--ink)}
 .brand svg{width:24px;height:24px;color:var(--accent)}
 .brand .ar{font-size:20px;color:var(--ink-2);font-weight:400}
-.top nav{display:flex;align-items:center;gap:8px}
+.top .top-nav{display:flex;align-items:center;gap:8px}
 .lang{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 12px;font:inherit;font-size:14px}
 
 /* buttons */
@@ -159,7 +159,8 @@ footer a:hover{color:var(--accent)}
 @media (max-width:420px){
   .times{grid-template-columns:1fr}
   .ctas .btn{flex:1 1 100%}
-  .top nav .btn{display:none}
+  .top .top-nav .btn{padding-inline:12px}
+  .brand > span:first-of-type{font-size:15px}
 }
 
 /* Arabic and Urdu interface: the Arabic text is the text, so meanings in English are hidden. */
@@ -177,3 +178,13 @@ html[dir="rtl"] .stack img:nth-child(2){right:auto;left:2%;transform:rotate(-4de
 .lang-pick:hover,.lang-pick:focus-within{border-color:var(--ink-3)}
 .lang-pick:focus-within{box-shadow:0 0 0 3px var(--accent-soft)}
 .lang-pick select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;font-size:16px}
+
+/* ---------- Audit fixes ---------- */
+html[lang="bn"] .eyebrow, html[lang="bn"] .kind{letter-spacing:0;text-transform:none}
+.ref a{display:inline-block;padding-block:4px;min-height:24px}
+footer nav a{display:inline-block;padding-block:6px;min-height:24px}
+h1.eyebrow{margin:0}
+.privacy{flex-basis:100%;margin:0;font-size:12.5px;color:var(--ink-3);max-width:70ch}
+@media (max-width:360px){
+  .top .brand > span:first-of-type{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}

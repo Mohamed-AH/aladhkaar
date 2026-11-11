@@ -69,6 +69,7 @@ button, input { font: inherit; }
     $("#note").textContent = "Loading…";
     const res = await api("/api/messages?status=" + status).catch(() => null);
     if (!res) { $("#note").textContent = "Couldn't reach the server."; return; }
+    if (res.status === 429) { sessionStorage.removeItem("inboxToken"); token = ""; show(false); $("#note").textContent = "Too many wrong tokens. Try again in 15 minutes."; return; }
     if (res.status === 401) { sessionStorage.removeItem("inboxToken"); token = ""; show(false); $("#note").textContent = "That token didn't work."; return; }
     const { messages = [] } = await res.json();
     sessionStorage.setItem("inboxToken", token); show(true); $("#note").textContent = "";

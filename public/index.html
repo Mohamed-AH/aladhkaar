@@ -15,11 +15,11 @@
   <meta property="og:url" content="https://aladhkaar.com/">
   <meta property="og:title" content="Morning and evening adhkar, on a card you keep">
   <meta property="og:description" content="Get the ready card or make your own. Each dhikr with its reference. Free.">
-  <meta property="og:image" content="https://aladhkaar.com/og-image.png">
+  <meta property="og:image" content="https://aladhkaar.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://aladhkaar.com/og-image.png">
+  <meta name="twitter:image" content="https://aladhkaar.com/og-image.jpg">
   <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#16171a" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="manifest.webmanifest">
@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="preload" href="data/quotes.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
-  <link rel="stylesheet" href="landing.css?v=3">
+  <link rel="stylesheet" href="landing.css?v=4">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l3.1 6.6L26 6l-2.6 6.9L30 16l-6.6 3.1L26 26l-6.9-2.6L16 30l-3.1-6.6L6 26l2.6-6.9L2 16l6.6-3.1L6 6l6.9 2.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="16" r="4.2" fill="currentColor"/></svg>
       <span data-t="appName">Adhkar Maker</span><span class="ar">صانع الأذكار</span>
     </a>
-    <nav>
+    <div class="top-nav">
       <label class="lang-pick">
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 10h14.4M10 2.8c2.2 2.3 2.2 12.1 0 14.4M10 2.8c-2.2 2.3-2.2 12.1 0 14.4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         <span id="langCode">EN</span>
@@ -46,7 +46,7 @@
       </select>
       </label>
       <a class="btn btn-primary btn-sm" href="make" data-t="makeCard">Make a card</a>
-    </nav>
+    </div>
   </div>
 </header>
 
@@ -55,7 +55,7 @@
   <div class="hero">
     <div class="wrap">
       <div class="hero-text">
-        <span class="eyebrow" data-t="heroEyebrow">Morning &amp; evening adhkar</span>
+        <h1 class="eyebrow" data-t="heroEyebrow">Morning &amp; evening adhkar</h1>
         <figure class="ayah k-quran">
           <span class="kind" data-kind="quran"></span>
           <div class="ar" lang="ar">فَاذْكُرُونِي أَذْكُرْكُمْ</div>
@@ -80,8 +80,8 @@
         <div class="ref"><span data-t="alsoImages">Also as images:</span> <a href="ready/aladhkaar-page-1.jpg" data-ar-href="ready/aladhkaar-page-1-ar.jpg" download data-t="page1">page 1</a> · <a href="ready/aladhkaar-page-2.jpg" data-ar-href="ready/aladhkaar-page-2-ar.jpg" download data-t="page2">page 2</a>. <span data-t="free">Free, no sign-up.</span></div>
       </div>
       <div class="stack">
-        <img src="ready/preview-1.jpg" data-ar-src="ready/preview-1-ar.jpg" alt="" width="900" height="1273">
-        <img src="ready/preview-2.jpg" data-ar-src="ready/preview-2-ar.jpg" alt="" width="900" height="1273" data-t-alt="previewAlt">
+        <img data-src="ready/preview-1.jpg" data-ar-src="ready/preview-1-ar.jpg" alt="" width="900" height="1273">
+        <img data-src="ready/preview-2.jpg" data-ar-src="ready/preview-2-ar.jpg" alt="" width="900" height="1273" data-t-alt="previewAlt">
         <span class="tag" data-t="tag">23 adhkar · A4 · 2 pages · with sources</span>
       </div>
     </div>
@@ -95,7 +95,7 @@
         <h2 data-t="howTitle">A card on the wall, a habit in the heart</h2>
       </div>
       <div class="steps">
-        <div class="step"><span class="n" data-num="1">1</span><h3 data-t="s1h">Choose your card</h3><p data-t="s1p">Take the ready card, or open the maker to pick which adhkar to include, their order, colours and size.</p></div>
+        <div class="step"><span class="n" data-num="1">1</span><h3 data-t="s1h">Choose your card</h3><p data-t="s1p">Take the ready card, or open the maker to pick which adhkar to include, their order, colors and size.</p></div>
         <div class="step"><span class="n" data-num="2">2</span><h3 data-t="s2h">Print it or keep it on your phone</h3><p data-t="s2p">Save as PDF or image. Put it where you pray, by the bed, or on the fridge for the family.</p></div>
         <div class="step"><span class="n" data-num="3">3</span><h3 data-t="s3h">Read it at its time</h3><p data-t="s3p">Morning after Fajr, evening after ʿAsr. The card stays the same, so the words soon become yours.</p></div>
       </div>
@@ -163,7 +163,7 @@
       <div class="head" style="margin:0">
         <span class="eyebrow" data-t="famEyebrow">For families and children</span>
         <h2 data-t="famTitle">Let the little ones grow up with these words</h2>
-        <p class="lede" data-t="famLede">Add a child figure making duʿāʾ, choose soft colours and bigger text, and put the card in their room. Children learn by hearing, so read it with them.</p>
+        <p class="lede" data-t="famLede">Add a child figure making duʿāʾ, choose soft colors and bigger text, and put the card in their room. Children learn by hearing, so read it with them.</p>
         <div class="ctas" style="margin-top:12px"><a class="btn btn-ghost" href="make" data-t="famBtn">Design a card for your child</a></div>
       </div>
       <div class="proof k-quran">
@@ -176,7 +176,7 @@
   </section>
 
   <!-- 6. References -->
-  <section class="band">
+  <section class="band" id="sources">
     <div class="wrap">
       <div class="head">
         <span class="eyebrow" data-t="srcEyebrow">Our sources</span>
@@ -217,9 +217,10 @@
       <a href="make#suggest" data-t="fSuggest">Suggest a dhikr</a>
       <a href="make#contact" data-t="fContact">Contact</a>
     </nav>
+    <p class="privacy" data-t="privacy">Privacy: your cards stay in your browser. The contact form keeps your message, name, email and country only so we can reply, and messages are deleted after 12 months. A Cloudflare spam check runs on the form.</p>
   </div>
 </footer>
 
-<script src="landing.js?v=5"></script>
+<script src="landing.js?v=6"></script>
 </body>
 </html>

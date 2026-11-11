@@ -50,11 +50,20 @@ window.Exporter = (() => {
     setTimeout(() => URL.revokeObjectURL(url), 30000);
   }
 
+  // The PDF library (about 350 KB) loads only when someone saves a PDF.
+  let pdfLib = null;
+  const loadPdfLib = () => window.jspdf ? Promise.resolve() : (pdfLib = pdfLib || new Promise((ok, fail) => {
+    const sc = document.createElement("script");
+    sc.src = "vendor/jspdf.umd.min.js"; sc.onload = ok; sc.onerror = () => { pdfLib = null; fail(new Error("pdf lib")); };
+    document.head.append(sc);
+  }));
+
   const toBlob = (canvas, type, q) => new Promise(ok => canvas.toBlob(ok, type, q));
 
   async function pdf({ cards, w, h, name, onProgress }) {
     const fontCSS = await fontEmbedCSS(familiesOf(cards[0]));
     const mmW = w / PX_PER_MM, mmH = h / PX_PER_MM;
+    await loadPdfLib();
     const doc = new jspdf.jsPDF({ unit: "mm", format: [mmW, mmH], orientation: mmW > mmH ? "landscape" : "portrait", compress: true });
     for (let i = 0; i < cards.length; i++) {
       onProgress(i + 1, cards.length);

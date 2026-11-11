@@ -149,3 +149,9 @@ Shortcut: run this once and from then on just type `deploy-adhkar`:
 ```
 echo "alias deploy-adhkar='bash /d/aladhkaar/deploy.sh'" >> ~/.bashrc && source ~/.bashrc
 ```
+
+## Security headers
+
+`public/_headers` sets a Content-Security-Policy. It allows the two small inline scripts (in `index.html` and `inbox.html`) by their sha256 hash. If you change either script, update its hash in `_headers`, or the browser will block it.
+
+Rate limits (share links, inbox sign-in) use a `hits` table in D1. The site creates it on first use; `schema.sql` has it too.

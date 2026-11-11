@@ -5,7 +5,7 @@
   --surface-2: #f0ede6;
   --ink: #1d1e20;
   --ink-2: #5d5f63;
-  --ink-3: #8e9095;
+  --ink-3: #68696e;
   --line: #e3dfd6;
   --accent: #1f6f5c;
   --accent-ink: #ffffff;
@@ -478,3 +478,22 @@ textarea { resize: vertical; min-height: 120px; line-height: 1.6; font: inherit;
 .card-src bdi { unicode-bidi: isolate; }
 .row-src { color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .row-src::before { content: "· "; }
+
+/* ---------- Audit fixes ---------- */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* English and other Latin interfaces: one Latin face for all letters. */
+html:not([dir="rtl"]):not([lang="bn"]) { --ui-font: "IBM Plex Sans", "IBM Plex Sans Arabic", "Noto Sans Bengali", system-ui, -apple-system, "Segoe UI", sans-serif; }
+.stage-inner:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.row-time { color: var(--accent); font-weight: 600; }
+.sheet-note { font-size: 12px; color: var(--ink-2); margin: 4px 0 0; }
+.panel-foot a.btn-text { text-decoration: none; }
+/* Narrow phones: logo only, and the main button keeps its icon (the label stays for screen readers). */
+@media (max-width: 400px) {
+  .brand > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 360px) {
+  #btnExport > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  #btnExport { padding-inline: 10px; }
+  .top-actions { gap: 6px; }
+}
+.brand { min-height: 24px; min-width: 24px; }

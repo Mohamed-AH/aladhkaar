@@ -9,6 +9,8 @@
  *   IP_SALT           secret, any random text, used to hash IPs for rate limiting
  */
 
+import { sameOrigin } from "../../lib/limit.js";
+
 const TYPES = ["dhikr", "idea", "problem", "other"];
 const LIMIT_PER_HOUR = 5;
 
@@ -26,8 +28,7 @@ const escapeHTML = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;",
 
 export async function onRequestPost({ request, env, waitUntil }) {
   // Only accept posts from our own pages.
-  const origin = request.headers.get("Origin");
-  if (origin && new URL(origin).host !== new URL(request.url).host) return json({ ok: false, error: "origin" }, 403);
+  if (!sameOrigin(request)) return json({ ok: false, error: "origin" }, 403);
 
   let body;
   try { body = await request.json(); } catch { return json({ ok: false, error: "bad_request" }, 400); }

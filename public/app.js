@@ -52,7 +52,7 @@
     },
     ar: {
       appName: "صانع الأذكار", cardSection: "البطاقة", titleLabel: "العنوان", timeLabel: "الوقت",
-      modeBoth: "الاثنان", modeMorning: "الصباح", modeEvening: "المساء",
+      modeBoth: "كلاهما", modeMorning: "الصباح", modeEvening: "المساء",
       showTranslation: "الترجمة الإنجليزية", showCounts: "عدد المرات", showNumbers: "الترقيم",
       showFullQuran: "نص آية الكرسي كاملًا", footerLabel: "التذييل", footerNone: "بدون",
       adhkarSection: "الأذكار", dragHint: "اسحب لإعادة الترتيب، وأوقف ما لا تريده في البطاقة.",
@@ -63,7 +63,7 @@
       emptyCard: "فعّل ذكرًا واحدًا على الأقل ليظهر هنا.",
       designSection: "التصميم", themeLabel: "الألوان", accentLabel: "اللون الرئيسي", bgLabel: "الخلفية", resetColors: "ألوان القالب",
       fontLabel: "الخط العربي", patternLabel: "الزخرفة", placeFull: "كاملة", placeFrame: "إطار", placeTop: "أعلى", placeCorners: "الأركان",
-      strengthLabel: "الوضوح", figureSection: "الشخصية", poseLabel: "الوضعية", poseDua: "رافع يديه", poseStand: "واقف",
+      strengthLabel: "الشدة", figureSection: "الشخصية", poseLabel: "الوضعية", poseDua: "رافع يديه", poseStand: "واقف",
       styleLabel: "النمط", styleSoft: "لونان", styleSil: "ظل", skinLabel: "لون البشرة", sizeLabel: "الحجم",
       suggestDhikr: "اقترح ذكرًا لإضافته", contactUs: "تواصل معنا", reportProblem: "الإبلاغ عن مشكلة",
       contactTitle: "تواصل معنا", contactSub: "اقترح ذكرًا أو شاركنا فكرة أو أخبرنا عن مشكلة. نقرأ كل رسالة.",
@@ -98,6 +98,27 @@
   const EXTRA = window.I18N_EXTRA || {};
   const NAMES = EXTRA.NAMES || {};
   ["ur", "id", "ms", "tr", "fr", "bn"].forEach(l => { if (EXTRA[l]) I18N[l] = EXTRA[l]; });
+
+  // Labels added after the first translations (drafts for ur, id, ms, tr, fr, bn: native review pending).
+  const ADD = {
+    en: { close: "Close", views: "Views", aboutLink: "About and references", moved: (i, n) => `Position ${i} of ${n}`,
+      ctPrivacy: "We keep your message, name, email and country only to reply, and delete messages after 12 months." },
+    ar: { close: "إغلاق", views: "طريقة العرض", aboutLink: "عن الموقع والمراجع", moved: (i, n) => `الموضع ${toArDigits(i)} من ${toArDigits(n)}`,
+      ctPrivacy: "نحتفظ برسالتك واسمك وبريدك ودولتك للرد عليك فقط، ونحذف الرسائل بعد ١٢ شهرًا." },
+    ur: { close: "بند کریں", views: "منظر", aboutLink: "تعارف اور حوالہ جات", moved: (i, n) => `مقام ${i} از ${n}`,
+      ctPrivacy: "ہم آپ کا پیغام، نام، ای میل اور ملک صرف جواب دینے کے لیے رکھتے ہیں، اور پیغامات 12 ماہ بعد حذف کر دیتے ہیں۔" },
+    id: { close: "Tutup", views: "Tampilan", aboutLink: "Tentang dan rujukan", moved: (i, n) => `Posisi ${i} dari ${n}`,
+      ctPrivacy: "Kami menyimpan pesan, nama, email, dan negara Anda hanya untuk membalas, dan menghapus pesan setelah 12 bulan." },
+    ms: { close: "Tutup", views: "Paparan", aboutLink: "Perihal dan rujukan", moved: (i, n) => `Kedudukan ${i} daripada ${n}`,
+      ctPrivacy: "Kami menyimpan mesej, nama, e-mel dan negara anda hanya untuk membalas, dan memadam mesej selepas 12 bulan." },
+    tr: { close: "Kapat", views: "Görünüm", aboutLink: "Hakkında ve kaynaklar", moved: (i, n) => `Sıra ${i} / ${n}`,
+      ctPrivacy: "Mesajınızı, adınızı, e-postanızı ve ülkenizi yalnızca yanıt vermek için saklarız; mesajlar 12 ay sonra silinir." },
+    fr: { close: "Fermer", views: "Affichage", aboutLink: "À propos et références", moved: (i, n) => `Position ${i} sur ${n}`,
+      ctPrivacy: "Nous gardons votre message, votre nom, votre e-mail et votre pays uniquement pour vous répondre, et supprimons les messages après 12 mois." },
+    bn: { close: "বন্ধ করুন", views: "ভিউ", aboutLink: "পরিচিতি ও তথ্যসূত্র", moved: (i, n) => `অবস্থান ${i} / ${n}`,
+      ctPrivacy: "আমরা আপনার বার্তা, নাম, ইমেইল ও দেশ শুধু উত্তর দেওয়ার জন্য রাখি, এবং ১২ মাস পরে বার্তা মুছে ফেলি।" }
+  };
+  Object.keys(ADD).forEach(l => { if (I18N[l]) Object.assign(I18N[l], ADD[l]); });
   // Interface languages. The adhkar on the card always stay in Arabic.
   const LANGS = [
     { id: "en", name: "English" }, { id: "ar", name: "العربية", rtl: true }, { id: "ur", name: "اردو", rtl: true },
@@ -140,7 +161,7 @@
   function load() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch (_) {}
-    state = Object.assign(defaults(), saved || {});
+    state = Object.assign(defaults(), clean(saved));
     fixOrder();
   }
   // keep order valid if the library changes
@@ -149,6 +170,35 @@
     state.order = (state.order || []).filter(id => ids.includes(id));
     state.off = (state.off || []).filter(id => ids.includes(id));
     state.order = state.order.filter(id => ids.includes(id)).concat(ids.filter(id => !state.order.includes(id)));
+  }
+
+  // Shared links, card files and saved state come from outside: keep only known keys with valid values.
+  function clean(s) {
+    if (!s || typeof s !== "object") return {};
+    const bool = v => typeof v === "boolean";
+    const inList = list => v => list.includes(v);
+    const numIn = (lo, hi) => v => typeof v === "number" && isFinite(v) && v >= lo && v <= hi;
+    const ids = list => list.map(x => x.id);
+    const hex = v => v === null || (typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v));
+    const intArr = v => Array.isArray(v) && v.length <= 500 && v.every(Number.isInteger);
+    const rules = {
+      v: numIn(1, 9), lang: v => typeof v === "string" && !!I18N[v],
+      mode: inList(["both", "morning", "evening"]), order: intArr, off: intArr,
+      translation: bool, counts: bool, numbers: bool, fullQuran: bool, sources: bool, credit: bool, multicolor: bool,
+      footer: v => v === "none" || DATA.extras.some(e => e.id === v),
+      title: v => v === null || (typeof v === "string" && v.length <= 120),
+      theme: inList(ids(D.THEMES).concat(ids(D.DESIGNS))), accent: hex, bg: hex,
+      font: inList(ids(D.FONTS)), titleFont: inList(ids(D.TITLE_FONTS)),
+      pageSize: v => typeof v === "string" && Object.prototype.hasOwnProperty.call(PAGE, v),
+      textSize: inList(["fit", "m", "l", "xl"]), fitPages: v => Number.isInteger(v) && v >= 1 && v <= 8,
+      pattern: inList(ids(D.PATTERNS)), place: inList(["full", "frame", "top", "bottom", "corners"]), strength: numIn(0, 100),
+      figure: inList(ids(D.FIGURES)), pose: inList(["dua", "stand"]), figStyle: inList(["soft", "silhouette"]),
+      skin: v => typeof v === "string" && Object.prototype.hasOwnProperty.call(D.SKIN, v),
+      figSize: numIn(40, 160), figSide: inList(["left", "right"]), figY: numIn(0, 1)
+    };
+    const out = {};
+    for (const [k, ok] of Object.entries(rules)) if (k in s && ok(s[k])) out[k] = s[k];
+    return out;
   }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (_) {} }
   function set(patch) { Object.assign(state, patch); save(); render(); }
@@ -182,6 +232,7 @@
     const ls = $("#langSelect");
     if (!ls.options.length) LANGS.forEach(l => { const o = new Option(l.name, l.id); o.lang = l.id; ls.append(o); });
     ls.value = state.lang; ls.setAttribute("aria-label", t("languageLabel"));
+    document.querySelectorAll("[data-i18n-aria]").forEach(el => { const v = t(el.dataset.i18nAria); if (typeof v === "string") el.setAttribute("aria-label", v); });
     $("#langCode").textContent = state.lang.toUpperCase();
 
     const sel = $("#footerSelect");
@@ -316,13 +367,17 @@
       li.className = "dhikr-row" + (off ? " off" : "");
       li.dataset.id = id;
       li.innerHTML = `
-        <button type="button" class="grip" aria-label="${t("drag")}"><svg><use href="#grip"/></svg></button>
+        <button type="button" class="grip" aria-label="${esc(t("drag"))}" aria-keyshortcuts="ArrowUp ArrowDown"><svg><use href="#grip"/></svg></button>
         <div class="row-text">
           <div class="row-ar" lang="ar"></div>
-          <div class="row-meta"><span>${state.lang === "ar" || state.lang === "bn" ? num(a.id) : "#" + a.id}</span>${a.count ? `<span>${t("times")(a.count)}</span>` : ""}${a.source ? `<span class="row-src">${esc(state.lang === "ar" || state.lang === "ur" ? a.source.ar : a.source.en)}</span>` : ""}</div>
+          <div class="row-meta"><span>${state.lang === "ar" || state.lang === "bn" ? num(a.id) : "#" + a.id}</span>${a.count ? `<span>${t("times")(a.count)}</span>` : ""}${a.times ? `<span class="row-time">${esc(t(a.times === "morning" ? "modeMorning" : "modeEvening"))}</span>` : ""}${a.source ? `<span class="row-src">${esc(state.lang === "ar" || state.lang === "ur" ? a.source.ar : a.source.en)}</span>` : ""}</div>
         </div>
         <input type="checkbox" class="switch" aria-label="${t("include")}" ${off ? "" : "checked"}>`;
       li.querySelector(".row-ar").textContent = textFor(a).ar;
+      li.querySelector(".grip").addEventListener("keydown", e => {
+        if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+        e.preventDefault(); moveDhikr(id, e.key === "ArrowUp" ? -1 : 1);
+      });
       li.querySelector(".switch").addEventListener("change", e => {
         const offSet = new Set(state.off);
         e.target.checked ? offSet.delete(id) : offSet.add(id);
@@ -330,6 +385,21 @@
       });
       list.append(li);
     });
+  }
+
+
+  // Keyboard reorder: arrow keys on the grip move the dhikr up or down.
+  function moveDhikr(id, d) {
+    const i = state.order.indexOf(id), j = i + d;
+    if (i < 0 || j < 0 || j >= state.order.length) return;
+    const order = state.order.slice();
+    [order[i], order[j]] = [order[j], order[i]];
+    state.order = order; save();
+    renderControls(); renderList(); renderCard();
+    const g = document.querySelector(`#dhikrList [data-id="${id}"] .grip`);
+    if (g) g.focus();
+    const live = $("#srLive");
+    if (live) live.textContent = t("moved")(num(j + 1), num(order.length));
   }
 
   /* ---------- Pages ---------- */
@@ -436,7 +506,9 @@
     pages.innerHTML = "";
     [pageW, pageH] = PAGE[state.pageSize] || PAGE.a4;
     const u = pageW / 794;
-    const items = state.order.filter(id => !state.off.includes(id)).map(byId);
+    // A dhikr tied to one time of day stays off the other single-time card.
+    const items = state.order.filter(id => !state.off.includes(id)).map(byId)
+      .filter(a => !a.times || state.mode === "both" || a.times === state.mode);
     const foot = footHTML();
     let fitN = Math.max(1, Math.min(8, state.fitPages || 1));
     // Never shrink below a readable size: if the list can't fit, use more pages.
@@ -899,7 +971,7 @@
   function applyCard(s) {
     const lang = state.lang;
     if (!s.v) s = Object.assign({ order: DATA.adhkar.map(a => a.id) }, LEGACY_DEFAULTS, s);
-    state = Object.assign(defaults(), s, { lang });
+    state = Object.assign(defaults(), clean(s), { lang });
     fixOrder(); save(); applyLang(); render();
   }
 

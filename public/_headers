@@ -13,6 +13,9 @@
 /inbox.html
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
+/inbox
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
 /manifest.webmanifest
   Content-Type: application/manifest+json
 /fonts/*
@@ -22,3 +25,9 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  # If you edit the inline <script> in index.html or inbox.html, update its sha256 hash below or it will be blocked.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-+Vf7UxNDkMh0W5p+lrUYbw1PirXRwuXtyCZuIbELuTY=' 'sha256-iTqP6//EhL7FP/PFiGG8zjGA2JLb/POEGyYoHwkOS7I=' https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' data: blob: https://challenges.cloudflare.com https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
