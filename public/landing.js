@@ -29,7 +29,7 @@
       famBtn: "Design a card for your child",
       srcEyebrow: "Our sources", srcTitle: "References",
       srcLede: "Following the way of scholars such as Ibn Kathīr, we give the reference for each text so you can look it up and check it yourself. Where we cite a grading, we name the scholar who gave it. If you find a mistake, please tell us.",
-      srcTr: "Translations of the meanings follow Saheeh International, lightly adapted.",
+      srcTr: "Translations of the meanings: Quran from Saheeh International; hadith and the words of the Salaf in English.",
       endTitle: "Start tomorrow morning", endLede: "Print the card tonight, keep it where you pray, and read it after Fajr.", getCard: "Get the ready card",
       fMaker: "Card maker", fSuggest: "Suggest a dhikr", fContact: "Contact"
     },
@@ -85,7 +85,7 @@
       famBtn: "اپنے بچے کے لیے کارڈ بنائیں",
       srcEyebrow: "ہمارے مآخذ", srcTitle: "حوالہ جات",
       srcLede: "ابن کثیر جیسے اہل علم کے طریقے پر ہم ہر عبارت کا حوالہ دیتے ہیں تاکہ آپ خود دیکھ کر تحقیق کر سکیں۔ جہاں کسی حدیث کا حکم نقل کریں، وہاں اس عالم کا نام دیتے ہیں۔ کوئی غلطی ملے تو ہمیں بتائیں۔",
-      srcTr: "معانی کا انگریزی ترجمہ صحیح انٹرنیشنل سے ماخوذ ہے، معمولی تبدیلی کے ساتھ۔",
+      srcTr: "معانی کا ترجمہ: قرآن مولانا محمد جوناگڑھی (Quran.com سے)؛ احادیث اور اقوالِ سلف انگریزی میں۔",
       endTitle: "کل صبح سے شروع کریں", endLede: "آج رات کارڈ پرنٹ کریں، نماز کی جگہ رکھیں، اور فجر کے بعد پڑھیں۔", getCard: "تیار کارڈ لیں",
       fMaker: "کارڈ ساز", fSuggest: "ذکر تجویز کریں", fContact: "رابطہ"
     },
@@ -113,7 +113,7 @@
       famBtn: "Buat kartu untuk anak Anda",
       srcEyebrow: "Sumber kami", srcTitle: "Rujukan",
       srcLede: "Mengikuti cara para ulama seperti Ibnu Katsir, kami mencantumkan rujukan setiap teks agar Anda dapat memeriksanya sendiri. Jika kami menukil penilaian hadits, kami sebutkan ulama yang menilainya. Jika menemukan kesalahan, mohon kabari kami.",
-      srcTr: "Terjemahan makna dalam bahasa Inggris mengikuti Saheeh International, dengan sedikit penyesuaian.",
+      srcTr: "Terjemahan makna: Al-Qur'an dari King Fahad Quran Complex (via Quran.com); hadits dan perkataan Salaf dalam bahasa Inggris.",
       endTitle: "Mulai besok pagi", endLede: "Cetak kartunya malam ini, letakkan di tempat shalat, dan baca setelah Subuh.", getCard: "Ambil kartu siap pakai",
       fMaker: "Pembuat kartu", fSuggest: "Usulkan dzikir", fContact: "Kontak"
     },
@@ -141,7 +141,7 @@
       famBtn: "Reka kad untuk anak anda",
       srcEyebrow: "Sumber kami", srcTitle: "Rujukan",
       srcLede: "Mengikut cara ulama seperti Ibnu Kathir, kami menyertakan rujukan setiap teks supaya anda boleh menyemaknya sendiri. Jika kami menukil hukum hadis, kami sebut ulama yang menilainya. Jika terdapat kesilapan, sila maklumkan kami.",
-      srcTr: "Terjemahan makna dalam bahasa Inggeris mengikut Saheeh International, dengan sedikit penyesuaian.",
+      srcTr: "Terjemahan makna: al-Quran oleh Abdullah Muhammad Basmeih (melalui Quran.com); hadis dan kata-kata Salaf dalam bahasa Inggeris.",
       endTitle: "Mula esok pagi", endLede: "Cetak kad malam ini, letak di tempat solat, dan baca selepas Subuh.", getCard: "Dapatkan kad sedia",
       fMaker: "Pembuat kad", fSuggest: "Cadangkan zikir", fContact: "Hubungi"
     },
@@ -169,7 +169,7 @@
       famBtn: "Çocuğunuz için kart hazırlayın",
       srcEyebrow: "Kaynaklarımız", srcTitle: "Kaynaklar",
       srcLede: "İbn Kesîr gibi âlimlerin yolunu izleyerek her metnin kaynağını veriyoruz; böylece kendiniz bakıp kontrol edebilirsiniz. Bir hadis hükmü aktardığımızda o hükmü veren âlimi belirtiyoruz. Bir hata görürseniz lütfen bize bildirin.",
-      srcTr: "Anlamların İngilizce çevirisi, küçük uyarlamalarla Saheeh International'a dayanır.",
+      srcTr: "Anlam çevirileri: Kur'an, Dar Al-Salam Center (Quran.com üzerinden); hadisler ve Selef'in sözleri İngilizce.",
       endTitle: "Yarın sabah başlayın", endLede: "Kartı bu gece yazdırın, namaz yerinize koyun ve Fecir'den sonra okuyun.", getCard: "Hazır kartı indir",
       fMaker: "Kart hazırlayıcı", fSuggest: "Zikir öner", fContact: "İletişim"
     },
@@ -197,7 +197,7 @@
       famBtn: "Créer une carte pour votre enfant",
       srcEyebrow: "Nos sources", srcTitle: "Références",
       srcLede: "Suivant la voie de savants comme Ibn Kathîr, nous donnons la référence de chaque texte pour que vous puissiez la vérifier vous-même. Quand nous citons un jugement sur un hadith, nous nommons le savant qui l'a donné. Si vous trouvez une erreur, dites-le-nous.",
-      srcTr: "Les traductions des sens en anglais suivent Saheeh International, légèrement adaptées.",
+      srcTr: "Traduction des sens : le Coran selon Rashid Maash (via Quran.com) ; les hadiths et les paroles des Salaf en anglais.",
       endTitle: "Commencez demain matin", endLede: "Imprimez la carte ce soir, placez-la là où vous priez, et lisez-la après Fajr.", getCard: "Télécharger la carte prête",
       fMaker: "Créateur de cartes", fSuggest: "Proposer un dhikr", fContact: "Contact"
     },
@@ -225,11 +225,60 @@
       famBtn: "আপনার শিশুর জন্য কার্ড বানান",
       srcEyebrow: "আমাদের সূত্র", srcTitle: "সূত্রসমূহ",
       srcLede: "ইবনে কাসিরের মতো আলেমদের পদ্ধতি অনুসরণ করে আমরা প্রতিটি লেখার সূত্র দিই, যাতে আপনি নিজে দেখে যাচাই করতে পারেন। কোনো হাদিসের মান উল্লেখ করলে যে আলেম তা বলেছেন তাঁর নাম দিই। ভুল পেলে আমাদের জানান।",
-      srcTr: "অর্থের ইংরেজি অনুবাদ সহিহ ইন্টারন্যাশনাল অনুসারে, সামান্য পরিবর্তনসহ।",
+      srcTr: "অর্থের অনুবাদ: কুরআন ড. আবু বকর মুহাম্মাদ যাকারিয়া (Quran.com থেকে); হাদিস ও সালাফের বাণী ইংরেজিতে।",
       endTitle: "আগামীকাল সকাল থেকে শুরু করুন", endLede: "আজ রাতে কার্ড ছাপান, নামাজের জায়গায় রাখুন, আর ফজরের পর পড়ুন।", getCard: "তৈরি কার্ড নিন",
       fMaker: "কার্ড মেকার", fSuggest: "জিকির প্রস্তাব করুন", fContact: "যোগাযোগ"
     }
   };
+
+  // Quran meanings in each language, from Quran.com: ur Junagarhi (54), id King Fahad Complex (134),
+  // ms Basmeih (39), tr Dar Al-Salam Center (210), fr Rashid Maash (779), bn Dr. Abu Bakr Zakaria (213).
+  // Only the part of each ayah shown on the page. English uses the text in the HTML (Saheeh International).
+  const QT = {
+ "ur": {
+  "2:152": "اس لئے تم میرا ذکر کرو، میں بھی تمہیں یاد کروں گا۔",
+  "33:41-42": "مسلمانو! اللہ تعالیٰ کا ذکر بہت زیاده کرو۔ اور صبح وشام اس کی پاکیزگی بیان کرو۔",
+  "50:39": "اپنے رب کی تسبیح تعریف کے ساتھ بیان کریں سورج نکلنے سے پہلے بھی اور سورج غروب ہونے سے پہلے بھی۔",
+  "13:28": "یاد رکھو اللہ کے ذکر سے ہی دلوں کو تسلی حاصل ہوتی ہے۔",
+  "66:6": "اے ایمان والو! تم اپنے آپ کو اور اپنے گھر والوں کو اس آگ سے بچاؤ۔"
+ },
+ "id": {
+  "2:152": "Karena itu, ingatlah kamu kepada-Ku niscaya Aku ingat (pula) kepadamu.",
+  "33:41-42": "Hai orang-orang yang beriman, berzikirlah (dengan menyebut nama) Allah; zikir yang sebanyak-banyaknya. Dan bertasbihlah kepada-Nya pada waktu pagi dan petang.",
+  "50:39": "Bertasbihlah sambil memuji Tuhan-mu, sebelum terbit matahari dan sebelum terbenam(nya).",
+  "13:28": "Ingatlah, hanya dengan mengingati Allah-lah hati menjadi tenteram.",
+  "66:6": "Hai orang-orang yang beriman, peliharalah dirimu dan keluargamu dari api neraka."
+ },
+ "ms": {
+  "2:152": "Oleh itu ingatlah kamu kepadaKu (dengan mematuhi hukum dan undang-undangKu), supaya Aku membalas kamu dengan kebaikan.",
+  "33:41-42": "Wahai orang-orang yang beriman, (untuk bersyukur kepada Allah) ingatlah serta sebutlah nama Allah dengan ingatan serta sebutan yang sebanyak-banyaknya; dan bertasbihlah kamu kepadaNya pada waktu pagi dan petang.",
+  "50:39": "Bertasbihlah sambil memuji Tuhanmu (terutama) sebelum terbit matahari dan sebelum matahari terbenam.",
+  "13:28": "Ketahuilah dengan \"zikrullah\" itu, tenang tenteramlah hati manusia.",
+  "66:6": "Wahai orang-orang yang beriman! Peliharalah diri kamu dan keluarga kamu dari neraka."
+ },
+ "tr": {
+  "2:152": "O halde yalnız beni anın ki, ben de sizi anayım.",
+  "33:41-42": "Ey iman edenler! Allah’ı çok çok zikredin. O’nu, sabah ve akşam tesbih edin.",
+  "50:39": "Güneş doğmadan önce ve batmadan önce Rabbini hamdederek tesbih et!",
+  "13:28": "Bilesiniz ki, kalpler ancak Allah'ı zikretmekle huzur bulur.",
+  "66:6": "Ey iman edenler! Kendinizi ve ailelerinizi yakıtı insanlar ve taşlar olan ateşten koruyun."
+ },
+ "fr": {
+  "2:152": "Souvenez-vous donc de Moi, Je me souviendrai de vous.",
+  "33:41-42": "Vous qui croyez ! Invoquez fréquemment le nom d’Allah. Célébrez Sa sainteté et Sa gloire matin et soir.",
+  "50:39": "Célèbre, par les louanges, la gloire de ton Seigneur avant le lever du soleil et avant son coucher.",
+  "13:28": "C’est en effet dans l’évocation d’Allah que les cœurs trouvent véritablement la paix.",
+  "66:6": "Vous qui croyez ! Préservez-vous, ainsi que vos familles, d'un feu alimenté par les hommes et les pierres."
+ },
+ "bn": {
+  "2:152": "কাজেই তোমরা আমাকে স্মরণ করো, আমিও তোমাদেরকে স্মরণ করব।",
+  "33:41-42": "হে ঈমানদারগণ! তোমরা আল্লাহ্‌কে অধিক স্মরণ কর, এবং সকাল-সন্ধ্যায় আল্লাহর পবিত্ৰতা ও মহিমা ঘোষণা কর।",
+  "50:39": "আপনার রবের সপ্ৰশংস পবিত্রতা ও মহিমা ঘোষণা করুন সূর্যোদয়ের আগে ও সূর্যাস্তের আগে।",
+  "13:28": "জেনে রাখ, আল্লাহ্‌র স্মরণেই মন প্রশান্ত হয়।",
+  "66:6": "হে ইমানদারগণ! তোমরা নিজেদেরকে এবং তোমাদের পরিবার-পরিজনকে রক্ষা কর আগুন থেকে।"
+ }
+};
+  const quranText = key => (QT[lang] && QT[lang][key]) || null;
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } },
@@ -265,7 +314,11 @@
       if (!el.dataset.en) el.dataset.en = el.textContent;
       el.textContent = useAr() ? el.dataset.ar : el.dataset.en;
     });
-    document.querySelectorAll(".only-tr").forEach(el => { el.hidden = lang === "ar"; });
+    document.querySelectorAll("[data-q]").forEach(el => {
+      if (!el.dataset.en) el.dataset.en = el.textContent;
+      el.textContent = quranText(el.dataset.q) || el.dataset.en;
+    });
+    
     document.getElementById("lang").value = lang;
     fill();
   }
@@ -281,7 +334,7 @@
       el.className = "proof rot k-" + q.kind;
       el.innerHTML = `<span class="kind">${kindHTML(q.kind)}</span>` +
         (q.kind === "quran" ? "" : `<span class="who">${esc(who)}</span>`) +
-        `<div class="ar" lang="ar">${esc(q.ar)}</div><p class="en">${esc(q.en)}</p><span class="ref">${esc(ref)}</span>`;
+        `<div class="ar" lang="ar">${esc(q.ar)}</div><p class="en">${esc((q.verse && quranText(q.verse)) || q.en)}</p><span class="ref">${esc(ref)}</span>`;
     });
   }
   fetch("data/quotes.json").then(r => r.json()).then(d => { data = d; fill(); }).catch(() => slots.forEach(el => { el.hidden = true; }));
