@@ -1,5 +1,5 @@
 /* Offline support: cache the app shell, then cache fonts as they load. */
-const VERSION = "adhkar-v16";
+const VERSION = "adhkar-v17";
 const SHELL = ["./", "index.html", "make", "landing.css", "landing.js", "data/quotes.json", "make.html", "styles.css", "app.js", "vendor/Sortable.min.js", "vendor/html-to-image.js", "vendor/jspdf.umd.min.js", "design.js", "export.js", "i18n-extra.js", "fonts/fonts.css", "data/adhkar.json",
   "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 

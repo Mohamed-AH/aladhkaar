@@ -106,6 +106,18 @@
           <p class="hint hint-after" id="pageCount"></p>
         </div>
 
+        <div class="field">
+          <span class="field-label" data-i18n="colsLabel">Columns</span>
+          <div class="segmented seg-4" role="radiogroup" id="colsGroup">
+            <button type="button" role="radio" data-cols="auto" data-i18n="colsAuto">Auto</button>
+            <button type="button" role="radio" data-cols="1">1</button>
+            <button type="button" role="radio" data-cols="2">2</button>
+            <button type="button" role="radio" data-cols="3">3</button>
+          </div>
+          <p class="hint hint-after" id="colsNote"></p>
+          <label class="switch-row" id="colRuleRow"><span data-i18n="colRuleLabel">Line between columns</span><input type="checkbox" class="switch" id="optColRule"></label>
+        </div>
+
         <div class="toggles">
           <label class="switch-row"><span data-i18n="showTranslation">English translation</span><input type="checkbox" class="switch" id="optTranslation"></label>
           <label class="switch-row"><span data-i18n="showCounts">Repeat counts</span><input type="checkbox" class="switch" id="optCounts"></label>
@@ -159,6 +171,23 @@
             <button type="button" role="radio" data-place="corners" data-i18n="placeCorners">Corners</button>
           </div>
           <label class="range-row"><span data-i18n="strengthLabel">Strength</span><input type="range" id="patternStrength" min="4" max="100" step="1"></label>
+        </div>
+        <div class="field">
+          <span class="field-label" data-i18n="borderLabel">Border</span>
+          <div class="chips border-chips" id="borderChips" role="radiogroup"></div>
+        </div>
+        <div class="field" id="borderOpts">
+          <div class="color-row">
+            <label class="color-field"><input type="color" id="borderColor"><span data-i18n="borderColorLabel">Border color</span></label>
+            <button type="button" class="btn-text" id="btnBorderAccent" data-i18n="borderAccent">Use accent color</button>
+          </div>
+          <span class="field-label" data-i18n="borderWeightLabel">Thickness</span>
+          <div class="segmented" role="radiogroup" id="borderWeightGroup">
+            <button type="button" role="radio" data-weight="thin" data-i18n="weightThin">Thin</button>
+            <button type="button" role="radio" data-weight="medium" data-i18n="weightMedium">Medium</button>
+            <button type="button" role="radio" data-weight="bold" data-i18n="weightBold">Bold</button>
+          </div>
+          <label class="range-row"><span data-i18n="borderGapLabel">Distance from edge</span><input type="range" id="borderGap" min="10" max="70" step="1"></label>
         </div>
       </section>
 

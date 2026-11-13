@@ -55,7 +55,7 @@ window.Design = (() => {
     { id: "alhambra", name: { en: "Alhambra", ar: "الحمراء" },
       bg: "#0e3a32", ink: "#f3ead6", ink2: "#c4bba3", accent: "#d6a84c", rule: "#2a5249",
       atmo: "radial-gradient(120% 60% at 50% 0%, rgba(214,168,76,.20), transparent 60%), radial-gradient(80% 50% at 50% 110%, rgba(0,0,0,.35), transparent 70%)",
-      titleFont: "ruqaa", font: "amiri", pattern: "stars", place: "frame", strength: 38, figure: "none" },
+      titleFont: "ruqaa", font: "amiri", pattern: "stars", place: "frame", strength: 38, figure: "none", border: "geometric", borderGap: 44 },
     { id: "fajr", name: { en: "Fajr", ar: "الفجر" },
       bg: "#fbf2ea", ink: "#2b2230", ink2: "#75677a", accent: "#c65f36", rule: "#ecd9cc",
       atmo: "radial-gradient(90% 40% at 50% -6%, rgba(242,148,92,.42), transparent 70%), linear-gradient(180deg, #f8dcc8 0%, rgba(251,242,234,0) 38%)",
@@ -67,7 +67,7 @@ window.Design = (() => {
     { id: "lapis", name: { en: "Lapis Print", ar: "لازورد" },
       bg: "#f7f6f1", ink: "#121418", ink2: "#565a62", accent: "#1f47ad", rule: "#dcdbd3",
       atmo: "linear-gradient(90deg, rgba(31,71,173,.07) 0 12px, transparent 12px)",
-      titleFont: "kufi", font: "scheherazade", pattern: "lattice", place: "corners", strength: 26, figure: "none" },
+      titleFont: "kufi", font: "scheherazade", pattern: "lattice", place: "corners", strength: 26, figure: "none", border: "double", borderGap: 30 },
     { id: "garden", name: { en: "Kids' Garden", ar: "حديقة الصغار" },
       bg: "#fff5d9", ink: "#2a2a1f", ink2: "#6c684f", accent: "#23936b", rule: "#efe2b8",
       atmo: "radial-gradient(45% 30% at 0% 100%, rgba(255,160,80,.30), transparent 70%), radial-gradient(45% 30% at 100% 0%, rgba(70,190,205,.30), transparent 70%)",
@@ -75,7 +75,7 @@ window.Design = (() => {
     { id: "terracotta", name: { en: "Terracotta", ar: "فخّار" },
       bg: "#f2e4d3", ink: "#3a2418", ink2: "#7d5f4c", accent: "#b04f2b", rule: "#e3cdb6",
       atmo: "linear-gradient(165deg, rgba(176,79,43,.12), transparent 45%), radial-gradient(70% 45% at 100% 100%, rgba(120,60,30,.12), transparent 70%)",
-      titleFont: "ruqaa", font: "scheherazade", pattern: "arches", place: "full", strength: 14, figure: "woman", pose: "stand", figStyle: "soft" }
+      titleFont: "ruqaa", font: "scheherazade", pattern: "arches", place: "full", strength: 14, figure: "woman", pose: "stand", figStyle: "soft", border: "mihrab", borderGap: 24 }
   ];
 
   /* ---------- Patterns: small SVG tiles in the accent color ---------- */
@@ -101,6 +101,114 @@ window.Design = (() => {
       } },
     { id: "dots",    name: { en: "Dots", ar: "نقاط" }, make: c => tile(18, 18, `<circle cx="9" cy="9" r="1.6" fill="${c}"/>`) }
   ];
+
+
+  /* ---------- Borders: inline SVG drawn to the page size, so they stay sharp in print and export ---------- */
+  const BORDERS = [
+    { id: "none", name: { en: "None", ar: "بدون", ur: "کچھ نہیں", id: "Tidak ada", ms: "Tiada", tr: "Yok", fr: "Aucune", bn: "নেই" } },
+    { id: "line", name: { en: "Fine line", ar: "خط رفيع", ur: "باریک لکیر", id: "Garis tipis", ms: "Garisan halus", tr: "İnce çizgi", fr: "Trait fin", bn: "সরু রেখা" } },
+    { id: "double", name: { en: "Double line", ar: "خط مزدوج", ur: "دوہری لکیر", id: "Garis ganda", ms: "Garisan berganda", tr: "Çift çizgi", fr: "Double trait", bn: "দ্বৈত রেখা" } },
+    { id: "beaded", name: { en: "Beaded", ar: "خرز", ur: "موتی", id: "Manik-manik", ms: "Manik", tr: "Boncuklu", fr: "Perlé", bn: "পুঁতি" } },
+    { id: "geometric", name: { en: "Geometric", ar: "هندسي", ur: "ہندسی", id: "Geometris", ms: "Geometri", tr: "Geometrik", fr: "Géométrique", bn: "জ্যামিতিক" } },
+    { id: "arabesque", name: { en: "Arabesque", ar: "توريق", ur: "بیل بوٹے", id: "Arabes", ms: "Arabes", tr: "Arabesk", fr: "Arabesque", bn: "আরাবেস্ক" } },
+    { id: "mihrab", name: { en: "Mihrab", ar: "محراب", ur: "محراب", id: "Mihrab", ms: "Mihrab", tr: "Mihrap", fr: "Mihrab", bn: "মেহরাব" } }
+  ];
+  const WEIGHTS = { thin: 0.7, medium: 1, bold: 1.5 };
+  const f = n => +n.toFixed(2);
+
+  // 8-point star (two overlapping squares) around cx, cy.
+  function star(cx, cy, r) {
+    let d = "";
+    for (let k = 0; k < 16; k++) {
+      const a = (k * 22.5 - 90) * Math.PI / 180, rr = k % 2 ? r * 0.7654 : r;
+      d += (k ? "L" : "M") + f(cx + rr * Math.cos(a)) + " " + f(cy + rr * Math.sin(a));
+    }
+    return d + "Z";
+  }
+  const rect = (x, y, w, h) => `M${f(x)} ${f(y)}H${f(x + w)}V${f(y + h)}H${f(x)}Z`;
+  // Points spread evenly from a to b, both ends included.
+  const spread = (a, b, step) => { const n = Math.max(1, Math.round((b - a) / step)); return Array.from({ length: n + 1 }, (_, i) => a + (b - a) * i / n); };
+
+  /* Returns the SVG and how far the border reaches into the page on each side (px),
+     so the text can stay clear of it. */
+  function borderSVG(id, { w, h, u, color, weight = "medium", gap = 26 }) {
+    if (!id || id === "none") return null;
+    const k = WEIGHTS[weight] || 1, i = gap * u, c = color;
+    let body = "", reach = { t: 0, s: 0, b: 0 };
+    const line = (o, sw) => `<path d="${rect(i + o, i + o, w - 2 * (i + o), h - 2 * (i + o))}" fill="none" stroke="${c}" stroke-width="${f(sw)}"/>`;
+    if (id === "line") {
+      const sw = 1.6 * k * u;
+      body = line(sw / 2, sw);
+      reach = { t: i + sw, s: i + sw, b: i + sw };
+    } else if (id === "double") {
+      const a = 2.4 * k * u, g = 5 * k * u, b = 1 * k * u;
+      body = line(a / 2, a) + line(a + g + b / 2, b);
+      const r = i + a + g + b;
+      reach = { t: r, s: r, b: r };
+    } else if (id === "beaded") {
+      const lw = 0.9 * k * u, rad = 2 * k * u, mid = i + lw + 3 * u + rad, step = 3.4 * rad + 3 * u;
+      let dots = "";
+      const xs = spread(mid, w - mid, step), ys = spread(mid, h - mid, step);
+      xs.forEach(x => { dots += `<circle cx="${f(x)}" cy="${f(mid)}" r="${f(rad)}"/><circle cx="${f(x)}" cy="${f(h - mid)}" r="${f(rad)}"/>`; });
+      ys.slice(1, -1).forEach(y => { dots += `<circle cx="${f(mid)}" cy="${f(y)}" r="${f(rad)}"/><circle cx="${f(w - mid)}" cy="${f(y)}" r="${f(rad)}"/>`; });
+      const inner = mid + rad + 3 * u;
+      body = line(lw / 2, lw) + `<g fill="${c}">${dots}</g>` + line(inner - i + lw / 2, lw);
+      reach = { t: inner + lw, s: inner + lw, b: inner + lw };
+    } else if (id === "geometric") {
+      const B = (18 + 8 * k) * u, sw = Math.max(0.8, 1.1 * Math.sqrt(k)) * u, r = B * 0.36, m = i + B / 2;
+      let open = "", solid = "", dots = "";
+      const xs = spread(m, w - m, B), ys = spread(m, h - m, B);
+      const add = (x, y, corner) => { corner ? (solid += star(x, y, r * 1.12)) : (open += star(x, y, r)); };
+      xs.forEach((x, n) => { const end = n === 0 || n === xs.length - 1; add(x, m, end); add(x, h - m, end); });
+      ys.slice(1, -1).forEach(y => { add(m, y, false); add(w - m, y, false); });
+      // A small dot between neighbouring stars.
+      for (let n = 0; n < xs.length - 1; n++) { const x = (xs[n] + xs[n + 1]) / 2; dots += `<circle cx="${f(x)}" cy="${f(m)}" r="${f(sw * 1.1)}"/><circle cx="${f(x)}" cy="${f(h - m)}" r="${f(sw * 1.1)}"/>`; }
+      for (let n = 0; n < ys.length - 1; n++) { const y = (ys[n] + ys[n + 1]) / 2; dots += `<circle cx="${f(m)}" cy="${f(y)}" r="${f(sw * 1.1)}"/><circle cx="${f(w - m)}" cy="${f(y)}" r="${f(sw * 1.1)}"/>`; }
+      body = line(sw / 2, sw * 1.3) + line(B - sw / 2, sw) +
+        `<path d="${open}" fill="none" stroke="${c}" stroke-width="${f(sw)}" stroke-linejoin="round"/>` +
+        `<path d="${solid}" fill="${c}"/><g fill="${c}">${dots}</g>`;
+      reach = { t: i + B, s: i + B, b: i + B };
+    } else if (id === "arabesque") {
+      const a = 1.4 * k * u, g = 5 * u, b = 0.8 * k * u, ci = i + a + g + b, s = 1.3 * u;
+      // One corner, drawn for the top-left and mirrored to the others. Units are 1/794 of an A4 width.
+      const scroll = "M6 2C28 2 40 16 62 15C84 14 92 2 114 4C130 6 134 23 123 29C114 33 106 25 112 20";
+      const leaves = "M38 13C40 26 50 33 62 33C60 22 50 15 38 13ZM78 9C84 0 96 -2 104 2C98 8 88 11 78 9ZM122 29C128 36 128 46 120 51C116 43 117 35 122 29ZM18 4C22 10 22 16 18 20C14 16 14 10 18 4Z";
+      const swap = d => d.replace(/(-?[\d.]+) (-?[\d.]+)/g, "$2 $1");
+      const corner = `<path d="${scroll} ${swap(scroll)}" fill="none" stroke="${c}" stroke-width="${f(1.6 * k)}" stroke-linecap="round"/>` +
+        `<path d="${leaves} ${swap(leaves)}" fill="${c}"/>` +
+        `<path d="M4 4C30 10 42 30 38 38C30 42 10 30 4 4Z" fill="${c}"/>` +
+        `<path d="M44 44C52 46 56 52 56 56C52 56 46 52 44 44Z" fill="${c}"/><circle cx="62" cy="62" r="2.4" fill="${c}"/>`;
+      const at = (x, y, sx, sy) => `<g transform="translate(${f(x)} ${f(y)}) scale(${f(sx * s)} ${f(sy * s)})">${corner}</g>`;
+      const motif = `<path d="M-46 0C-30 1 -20 12 0 14C20 12 30 1 46 0" fill="none" stroke="${c}" stroke-width="${f(1.4 * k)}" stroke-linecap="round"/>` +
+        `<path d="M0 6L6 14L0 22L-6 14Z" fill="${c}"/><circle cx="-24" cy="8" r="2.2" fill="${c}"/><circle cx="24" cy="8" r="2.2" fill="${c}"/>`;
+      const mid = (y, sy) => `<g transform="translate(${f(w / 2)} ${f(y)}) scale(${f(s)} ${f(sy * s)})">${motif}</g>`;
+      body = line(a / 2, a) + line(a + g + b / 2, b) +
+        at(ci, ci, 1, 1) + at(w - ci, ci, -1, 1) + at(ci, h - ci, 1, -1) + at(w - ci, h - ci, -1, -1) + mid(ci, 1) + mid(h - ci, -1);
+      reach = { t: ci + 38 * u, s: ci + 38 * u, b: ci + 38 * u };
+    } else if (id === "mihrab") {
+      const a = 2 * k * u, g = 6 * k * u, b = 0.9 * k * u, arch = Math.min(w * 0.2, 170 * u);
+      const path = o => {
+        const L = i + o, R = w - i - o, B = h - i - o, top = i + o, sh = top + arch, cx = w / 2, half = cx - L;
+        return `M${f(L)} ${f(B)}V${f(sh)}C${f(L)} ${f(sh - arch * 0.7)} ${f(cx - half * 0.3)} ${f(top + arch * 0.32)} ${f(cx)} ${f(top)}` +
+          `C${f(cx + half * 0.3)} ${f(top + arch * 0.32)} ${f(R)} ${f(sh - arch * 0.7)} ${f(R)} ${f(sh)}V${f(B)}Z`;
+      };
+      const inner = a + g + b / 2;
+      body = `<path d="${path(a / 2)}" fill="none" stroke="${c}" stroke-width="${f(a)}" stroke-linejoin="round"/>` +
+        `<path d="${path(inner)}" fill="none" stroke="${c}" stroke-width="${f(b)}" stroke-linejoin="round"/>` +
+        `<path d="${star(w / 2, i + inner + 16 * u, 6 * u)}" fill="${c}"/>`;
+      const r = i + a + g + b;
+      // How low the arch still is where the text starts at the side, so the text sits under it.
+      const L = i + inner, top = L, sh = top + arch, cx = w / 2, half = cx - L, xText = L + 40 * u;
+      let yText = top;
+      for (let n = 0; n <= 60; n++) {
+        const tt = n / 60, m = 1 - tt;
+        const x = m * m * m * L + 3 * m * m * tt * L + 3 * m * tt * tt * (cx - half * 0.3) + tt * tt * tt * cx;
+        if (x >= xText) { yText = m * m * m * sh + 3 * m * m * tt * (sh - arch * 0.7) + 3 * m * tt * tt * (top + arch * 0.32) + tt * tt * tt * top; break; }
+      }
+      reach = { t: Math.max(r + 36 * u, yText), s: r, b: r };
+    } else return null;
+    return { svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">${body}</svg>`, reach };
+  }
 
   const PLACEMENTS = ["full", "frame", "top", "bottom", "corners"];
 
@@ -163,5 +271,5 @@ window.Design = (() => {
     };
   }
 
-  return { THEMES, DESIGNS, TITLE_FONTS, FONTS, PATTERNS, PLACEMENTS, FIGURES, SKIN, figureSVG, figureColors, mix };
+  return { BORDERS, WEIGHTS, borderSVG, THEMES, DESIGNS, TITLE_FONTS, FONTS, PATTERNS, PLACEMENTS, FIGURES, SKIN, figureSVG, figureColors, mix };
 })();
