@@ -80,6 +80,7 @@ The site is hosted on **Cloudflare Pages** (project `adhkar-maker`) with Pages F
 - First-time setup (Wrangler login, database, secrets, Turnstile, Resend email, custom domain) is in [DEPLOY.md](DEPLOY.md).
 - To deploy: `npx wrangler pages deploy --branch main`.
 - `deploy.sh` takes the newest `aladhkaar-update*.zip` from Downloads, copies it over the local folder (leaving `wrangler.toml` alone) and deploys.
+- The latest update zip is always at [releases/latest/download/aladhkaar-update.zip](https://github.com/Mohamed-AH/aladhkaar/releases/latest/download/aladhkaar-update.zip). It is built by `.github/workflows/release.yml` whenever a tag like `v18` is pushed, or from the Actions tab.
 
 When you change CSS or JS, bump the `?v=` numbers in the HTML and `VERSION` in `public/sw.js` so browsers pick up the new files. The current version is `adhkar-v17`.
 
