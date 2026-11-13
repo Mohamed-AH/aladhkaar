@@ -119,6 +119,19 @@
       ctPrivacy: "আমরা আপনার বার্তা, নাম, ইমেইল ও দেশ শুধু উত্তর দেওয়ার জন্য রাখি, এবং ১২ মাস পরে বার্তা মুছে ফেলি।" }
   };
   Object.keys(ADD).forEach(l => { if (I18N[l]) Object.assign(I18N[l], ADD[l]); });
+
+  // Columns and borders (drafts for ur, id, ms, tr, fr, bn: native review pending).
+  const ADD2 = {
+    en: { colsLabel: "Columns", colsAuto: "Auto", colRuleLabel: "Line between columns", cols3Off: "3 columns needs A4 or A3, so this page uses 2.", borderLabel: "Border", borderColorLabel: "Border color", borderAccent: "Use accent color", borderWeightLabel: "Thickness", weightThin: "Thin", weightMedium: "Medium", weightBold: "Bold", borderGapLabel: "Distance from edge" },
+    ar: { colsLabel: "الأعمدة", colsAuto: "تلقائي", colRuleLabel: "خط بين الأعمدة", cols3Off: "ثلاثة أعمدة تحتاج حجم A4 أو A3، لذلك تُستخدم هنا عمودان.", borderLabel: "الإطار", borderColorLabel: "لون الإطار", borderAccent: "اللون الرئيسي", borderWeightLabel: "السُّمك", weightThin: "رفيع", weightMedium: "متوسط", weightBold: "عريض", borderGapLabel: "البعد عن الحافة" },
+    ur: { colsLabel: "کالم", colsAuto: "خودکار", colRuleLabel: "کالموں کے درمیان لکیر", cols3Off: "تین کالم کے لیے A4 یا A3 چاہیے، اس لیے یہاں دو کالم ہیں۔", borderLabel: "حاشیہ", borderColorLabel: "حاشیے کا رنگ", borderAccent: "مرکزی رنگ استعمال کریں", borderWeightLabel: "موٹائی", weightThin: "باریک", weightMedium: "درمیانی", weightBold: "موٹا", borderGapLabel: "کنارے سے فاصلہ" },
+    id: { colsLabel: "Kolom", colsAuto: "Otomatis", colRuleLabel: "Garis antarkolom", cols3Off: "3 kolom perlu A4 atau A3, jadi halaman ini memakai 2.", borderLabel: "Bingkai", borderColorLabel: "Warna bingkai", borderAccent: "Pakai warna aksen", borderWeightLabel: "Ketebalan", weightThin: "Tipis", weightMedium: "Sedang", weightBold: "Tebal", borderGapLabel: "Jarak dari tepi" },
+    ms: { colsLabel: "Lajur", colsAuto: "Auto", colRuleLabel: "Garisan antara lajur", cols3Off: "3 lajur memerlukan A4 atau A3, jadi halaman ini menggunakan 2.", borderLabel: "Bingkai", borderColorLabel: "Warna bingkai", borderAccent: "Guna warna aksen", borderWeightLabel: "Ketebalan", weightThin: "Nipis", weightMedium: "Sederhana", weightBold: "Tebal", borderGapLabel: "Jarak dari tepi" },
+    tr: { colsLabel: "Sütunlar", colsAuto: "Otomatik", colRuleLabel: "Sütunlar arasında çizgi", cols3Off: "3 sütun için A4 veya A3 gerekir, bu sayfada 2 sütun kullanılıyor.", borderLabel: "Çerçeve", borderColorLabel: "Çerçeve rengi", borderAccent: "Vurgu rengini kullan", borderWeightLabel: "Kalınlık", weightThin: "İnce", weightMedium: "Orta", weightBold: "Kalın", borderGapLabel: "Kenara uzaklık" },
+    fr: { colsLabel: "Colonnes", colsAuto: "Auto", colRuleLabel: "Trait entre les colonnes", cols3Off: "3 colonnes demandent un A4 ou un A3 : cette page en utilise 2.", borderLabel: "Bordure", borderColorLabel: "Couleur de la bordure", borderAccent: "Couleur d’accent", borderWeightLabel: "Épaisseur", weightThin: "Fine", weightMedium: "Moyenne", weightBold: "Épaisse", borderGapLabel: "Distance du bord" },
+    bn: { colsLabel: "কলাম", colsAuto: "স্বয়ংক্রিয়", colRuleLabel: "কলামের মাঝে রেখা", cols3Off: "৩ কলামের জন্য A4 বা A3 লাগে, তাই এই পাতায় ২টি কলাম।", borderLabel: "বর্ডার", borderColorLabel: "বর্ডারের রং", borderAccent: "অ্যাকসেন্ট রং ব্যবহার করুন", borderWeightLabel: "পুরুত্ব", weightThin: "পাতলা", weightMedium: "মাঝারি", weightBold: "মোটা", borderGapLabel: "কিনারা থেকে দূরত্ব" }
+  };
+  Object.keys(ADD2).forEach(l => { if (I18N[l]) Object.assign(I18N[l], ADD2[l]); });
   // Interface languages. The adhkar on the card always stay in Arabic.
   const LANGS = [
     { id: "en", name: "English" }, { id: "ar", name: "العربية", rtl: true }, { id: "ur", name: "اردو", rtl: true },
@@ -154,7 +167,8 @@
     footer: "verse-call", title: null, credit: false,
     theme: "pastel", accent: null, bg: null, multicolor: true, font: "scheherazade", titleFont: "messiri", pageSize: "a4", textSize: "fit", fitPages: 2,
     pattern: "none", place: "full", strength: 20,
-    figure: "boy", pose: "dua", figStyle: "soft", skin: "light", figSize: 83, figSide: "left", figY: 0.08
+    figure: "boy", pose: "dua", figStyle: "soft", skin: "light", figSize: 83, figSide: "left", figY: 0.08,
+    cols: "auto", colRule: true, border: "none", borderColor: null, borderWeight: "medium", borderGap: 26
   });
   let state;
 
@@ -194,7 +208,9 @@
       pattern: inList(ids(D.PATTERNS)), place: inList(["full", "frame", "top", "bottom", "corners"]), strength: numIn(0, 100),
       figure: inList(ids(D.FIGURES)), pose: inList(["dua", "stand"]), figStyle: inList(["soft", "silhouette"]),
       skin: v => typeof v === "string" && Object.prototype.hasOwnProperty.call(D.SKIN, v),
-      figSize: numIn(40, 160), figSide: inList(["left", "right"]), figY: numIn(0, 1)
+      figSize: numIn(40, 160), figSide: inList(["left", "right"]), figY: numIn(0, 1),
+      cols: inList(["auto", "1", "2", "3"]), colRule: bool, border: inList(ids(D.BORDERS)), borderColor: hex,
+      borderWeight: v => typeof v === "string" && Object.prototype.hasOwnProperty.call(D.WEIGHTS, v), borderGap: numIn(10, 70)
     };
     const out = {};
     for (const [k, ok] of Object.entries(rules)) if (k in s && ok(s[k])) out[k] = s[k];
@@ -266,7 +282,8 @@
         theme: d.id, accent: null, bg: null, font: d.font, titleFont: d.titleFont, pattern: d.pattern, place: d.place,
         strength: d.strength, figure: d.figure, pose: d.pose || state.pose, figStyle: d.figStyle || state.figStyle,
         textSize: d.textSize || state.textSize, multicolor: !!d.inks,
-        figSide: d.figSide || state.figSide, footer: d.footer || state.footer
+        figSide: d.figSide || state.figSide, footer: d.footer || state.footer,
+        border: d.border || "none", borderColor: null, borderWeight: d.borderWeight || "medium", borderGap: d.borderGap || 26
       }));
       dg.append(b);
     });
@@ -290,6 +307,14 @@
       b.innerHTML = `<span class="chip-pat"></span><span>${esc(L(pt.name))}</span>`;
       b.addEventListener("click", () => set({ pattern: pt.id }));
       pc.append(b);
+    });
+    const bc = $("#borderChips"); bc.innerHTML = "";
+    D.BORDERS.forEach(bd => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.setAttribute("role", "radio"); b.dataset.border = bd.id;
+      b.innerHTML = `<span class="chip-border"></span><span>${esc(L(bd.name))}</span>`;
+      b.addEventListener("click", () => set({ border: bd.id }));
+      bc.append(b);
     });
     const fc = $("#figureChips"); fc.innerHTML = "";
     D.FIGURES.forEach(f => {
@@ -352,6 +377,25 @@
     $("#figSize").value = state.figSize;
     $("#optMulticolor").checked = !!state.multicolor;
     $("#patternOpts").hidden = state.pattern === "none";
+    check("#colsGroup button", "cols", state.cols);
+    const narrow = maxCols() < 3;
+    $('#colsGroup [data-cols="3"]').disabled = narrow;
+    $("#colsNote").textContent = narrow && state.cols === "3" ? t("cols3Off") : "";
+    $("#optColRule").checked = !!state.colRule;
+    $("#colRuleRow").hidden = state.cols === "1";
+    check("#borderChips .chip", "border", state.border);
+    const bcol = state.borderColor || th.accent;
+    document.querySelectorAll("#borderChips .chip-border").forEach(el => {
+      const id = el.parentElement.dataset.border;
+      const bd = D.borderSVG(id, { w: 794, h: 1123, u: 1, color: bcol, weight: state.borderWeight, gap: 18 });
+      // Show a close-up of the corner (the top of the arch for the mihrab).
+      const vb = id === "mihrab" ? "322 0 150 96" : "0 0 150 96";
+      el.innerHTML = bd ? bd.svg.replace(/ width="[\d.]+" height="[\d.]+" viewBox="[^"]+"/, ` viewBox="${vb}" preserveAspectRatio="xMidYMin slice"`) : "";
+    });
+    $("#borderOpts").hidden = state.border === "none";
+    $("#borderColor").value = bcol;
+    check("#borderWeightGroup button", "weight", state.borderWeight);
+    $("#borderGap").value = state.borderGap;
     $("#figureOpts").hidden = state.figure === "none";
     $("#skinField").hidden = state.figStyle === "silhouette";
     const on = state.order.length - state.off.length;
@@ -410,6 +454,21 @@
   const TEXT = { m: 26, l: 34, xl: 44 };
   let pageW = 794, pageH = 1123, scaleNow = 1;
 
+  // Columns: "auto" lets the card choose 1 or 2. Three columns only on pages wide enough for them.
+  const maxCols = () => ["a4", "a3"].includes(state.pageSize) ? 3 : 2;
+  const pickedCols = () => state.cols === "auto" ? 0 : Math.min(Number(state.cols), maxCols());
+  function setCols(list, n) { list.classList.toggle("cols-2", n === 2); list.classList.toggle("cols-3", n === 3); }
+
+  // The border is drawn once per render and shared by every page.
+  let borderCache = { key: "", val: null };
+  function borderFor() {
+    if (!state.border || state.border === "none") return null;
+    const opts = { w: pageW, h: pageH, u: pageW / 794, color: state.borderColor || currentTheme().accent, weight: state.borderWeight, gap: state.borderGap };
+    const key = state.border + JSON.stringify(opts);
+    if (borderCache.key !== key) borderCache = { key, val: D.borderSVG(state.border, opts) };
+    return borderCache.val;
+  }
+
   function cardTitle() {
     const title = (state.title ?? "").trim() || autoTitle().ar;
     return { title, isLatin: !/[؀-ۿ]/.test(title) };
@@ -447,6 +506,7 @@
     applyCardDesign(card, first);
     const pat = D.PATTERNS.find(p => p.id === state.pattern) || D.PATTERNS[0];
     const fig = first && D.FIGURES.find(f => f.id === state.figure && f.id !== "none");
+    const bd = borderFor();
     const head = first ? `
       <header class="card-head">
         ${MARK}
@@ -459,9 +519,10 @@
       `<div class="card-atmo"></div>` +
       (pat.id !== "none" ? `<div class="card-pat ${state.place}"></div>` : "") +
       (pat.id !== "none" && state.place === "frame" ? `<div class="card-paper"></div>` : "") +
+      (bd ? `<div class="card-border">${bd.svg}</div>` : "") +
       (fig ? `<div class="card-figure">${D.figureSVG(fig.id, state.pose)}</div>` : "") +
       (state.credit ? `<div class="card-credit" dir="ltr">aladhkaar.com</div>` : "") +
-      `<div class="card-inner">${head}<div class="card-body"><ol class="card-list${state.numbers ? "" : " no-num"}"></ol></div></div>`;
+      `<div class="card-inner">${head}<div class="card-body"><ol class="card-list${state.numbers ? "" : " no-num"}${state.colRule ? " col-rule" : ""}"></ol></div></div>`;
     (card.querySelector(".card-title") || card.querySelector(".card-runtitle")).textContent = title;
     const wrap = document.createElement("div");
     wrap.className = "page-wrap";
@@ -471,12 +532,12 @@
     return card;
   }
 
-  function paginate(items, foot, fs, cols2) {
+  function paginate(items, foot, fs, cols) {
     $("#pages").innerHTML = "";
     const listOf = c => c.querySelector(".card-list");
     const over = c => listOf(c).scrollHeight > c.querySelector(".card-body").clientHeight + 1;
     const addFoot = c => c.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
-    const setup = c => { c.style.setProperty("--fs", fs + "px"); listOf(c).classList.toggle("cols-2", cols2); };
+    const setup = c => { c.style.setProperty("--fs", fs + "px"); setCols(listOf(c), cols); };
     let card = newPage(true); setup(card);
     items.forEach((a, i) => {
       const tmp = document.createElement("ol");
@@ -513,8 +574,9 @@
     let fitN = Math.max(1, Math.min(8, state.fitPages || 1));
     // Never shrink below a readable size: if the list can't fit, use more pages.
     const minFs = 11 * u;
+    const fixed = pickedCols();
     if (items.length && state.textSize === "fit") {
-      const need = Math.min(paginate(items, foot, minFs, true), paginate(items, foot, minFs, false));
+      const need = fixed ? paginate(items, foot, minFs, fixed) : Math.min(paginate(items, foot, minFs, 2), paginate(items, foot, minFs, 1));
       minPagesNeeded = need;
       fitN = Math.min(8, Math.max(fitN, need));
       pages.innerHTML = "";
@@ -528,26 +590,30 @@
       const card = newPage(true);
       card.querySelector(".card-list").innerHTML = items.map((a, i) => itemHTML(a, i + 1)).join("");
       card.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
-      fitCard(card, u);
+      fitCard(card, u, fixed);
     } else if (state.textSize === "fit") {
       // Largest text that still fits in the chosen number of pages.
-      const search = cols2 => {
+      const search = cols => {
         let lo = minFs, hi = 60 * u;
         for (let i = 0; i < 12; i++) {
           const mid = (lo + hi) / 2;
-          paginate(items, foot, mid, cols2) <= fitN ? (lo = mid) : (hi = mid);
+          paginate(items, foot, mid, cols) <= fitN ? (lo = mid) : (hi = mid);
         }
         return lo;
       };
-      const one = search(false);
-      let best = { fs: one, cols2: false };
-      if (one < 21 * u) {
-        const two = search(true);
-        if (two > one * 1.12) best = { fs: two, cols2: true };
+      let best;
+      if (fixed) best = { fs: search(fixed), cols: fixed };
+      else {
+        const one = search(1);
+        best = { fs: one, cols: 1 };
+        if (one < 21 * u) {
+          const two = search(2);
+          if (two > one * 1.12) best = { fs: two, cols: 2 };
+        }
       }
-      paginate(items, foot, Math.floor(best.fs * 10) / 10, best.cols2);
+      paginate(items, foot, Math.floor(best.fs * 10) / 10, best.cols);
     } else {
-      paginate(items, foot, TEXT[state.textSize] * u, state.textSize === "m");
+      paginate(items, foot, TEXT[state.textSize] * u, fixed || (state.textSize === "m" ? 2 : 1));
     }
     const wraps = [...pages.children];
     if (wraps.length > 1) wraps.forEach((w, i) => w.insertAdjacentHTML("beforeend",
@@ -600,18 +666,34 @@
     card.classList.toggle("framed", pat.id !== "none" && state.place === "frame");
     card.classList.toggle("fig-left", !!on && state.figSide === "left");
     card.classList.toggle("fig-right", !!on && state.figSide === "right");
+    // Space around the text: wider for the frame pattern, and always clear of the border.
+    const framed = pat.id !== "none" && state.place === "frame";
+    let [pt, ps, pb] = (framed ? [92, 90, 80] : [72, 68, 60]).map(v => v * u);
+    if (pat.id !== "none" && state.place === "bottom") pb = 112 * u;
+    let edge = (framed ? 56 : 30) * u, figTop = edge, figBot = edge;
+    const bd = borderFor();
+    if (bd) {
+      pt = Math.max(pt, bd.reach.t + 28 * u); ps = Math.max(ps, bd.reach.s + 26 * u); pb = Math.max(pb, bd.reach.b + 24 * u);
+      edge = Math.max(edge, bd.reach.s + 12 * u);
+      figTop = Math.max(edge, bd.reach.t + 12 * u); figBot = Math.max(edge, bd.reach.b + 12 * u);
+    }
+    card.style.setProperty("--pad-t", pt + "px"); card.style.setProperty("--pad-s", ps + "px"); card.style.setProperty("--pad-b", pb + "px");
+    card.style.setProperty("--fig-pad", `calc(var(--fig-w) + ${edge + (framed ? 6 : 10) * u}px)`);
+    card.classList.toggle("bordered", !!bd);
+    Object.assign(card.dataset, { edge, figTop, figBot });
   }
   function isDark(hex) {
     const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
     return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.5;
   }
 
-  const figEdge = card => (card.classList.contains("framed") ? 56 : 30) * pageW / 794;
+  const figEdge = card => Number(card.dataset.edge);
+  const figSpan = card => pageH - Number(card.dataset.figTop) - Number(card.dataset.figBot) - Number(card.dataset.figH);
   function positionFigure(card) {
     const el = card.querySelector(".card-figure");
     if (!el) return;
-    const edge = figEdge(card), h = Number(card.dataset.figH);
-    el.style.top = edge + (pageH - 2 * edge - h) * state.figY + "px";
+    const edge = figEdge(card);
+    el.style.top = Number(card.dataset.figTop) + figSpan(card) * state.figY + "px";
     el.style.left = state.figSide === "left" ? edge + "px" : "";
     el.style.right = state.figSide === "right" ? edge + "px" : "";
     el.onpointerdown = startFigureDrag;
@@ -623,13 +705,13 @@
     el.setPointerCapture(e.pointerId);
     el.classList.add("dragging");
     const startY = e.clientY, y0 = state.figY;
-    const edge = figEdge(card), span = pageH - 2 * edge - Number(card.dataset.figH);
+    const edge = figEdge(card), top = Number(card.dataset.figTop), span = figSpan(card);
     const rect = card.getBoundingClientRect();
     let side = state.figSide;
     const move = ev => {
       state.figY = Math.min(1, Math.max(0, y0 + (ev.clientY - startY) / scaleNow / span));
       side = ev.clientX < rect.left + rect.width / 2 ? "left" : "right";
-      el.style.top = edge + span * state.figY + "px";
+      el.style.top = top + span * state.figY + "px";
       el.style.left = side === "left" ? edge + "px" : "";
       el.style.right = side === "right" ? edge + "px" : "";
     };
@@ -648,7 +730,7 @@
   }
 
   // Find the biggest font size that fits one page, trying one and two columns.
-  function fitCard(card, u) {
+  function fitCard(card, u, fixed) {
     const body = card.querySelector(".card-body"), list = card.querySelector(".card-list");
     const fits = () => list.scrollHeight <= body.clientHeight;
     const search = () => {
@@ -660,15 +742,19 @@
       }
       return lo;
     };
-    list.classList.remove("cols-2");
-    const one = search();
-    let best = { cols: 1, fs: one };
-    if (one < 21 * u) {
-      list.classList.add("cols-2");
-      const two = search();
-      if (two > one * 1.12) best = { cols: 2, fs: two };
+    let best;
+    if (fixed) { setCols(list, fixed); best = { cols: fixed, fs: search() }; }
+    else {
+      setCols(list, 1);
+      const one = search();
+      best = { cols: 1, fs: one };
+      if (one < 21 * u) {
+        setCols(list, 2);
+        const two = search();
+        if (two > one * 1.12) best = { cols: 2, fs: two };
+      }
     }
-    list.classList.toggle("cols-2", best.cols === 2);
+    setCols(list, best.cols);
     card.style.setProperty("--fs", Math.floor(best.fs * 10) / 10 + "px");
   }
 
@@ -723,6 +809,12 @@
     $("#figStyleGroup").addEventListener("click", e => { const b = e.target.closest("button"); if (b) set({ figStyle: b.dataset.style }); });
     $("#patternStrength").addEventListener("input", e => { state.strength = Number(e.target.value); save(); document.querySelectorAll(".card").forEach(c => c.style.setProperty("--pat-op", state.strength / 100)); });
     $("#figSize").addEventListener("input", e => { state.figSize = Number(e.target.value); save(); renderCard(); });
+    $("#colsGroup").addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) set({ cols: b.dataset.cols }); });
+    $("#optColRule").addEventListener("change", e => set({ colRule: e.target.checked }));
+    $("#borderColor").addEventListener("input", e => set({ borderColor: e.target.value }));
+    $("#btnBorderAccent").addEventListener("click", () => set({ borderColor: null }));
+    $("#borderWeightGroup").addEventListener("click", e => { const b = e.target.closest("button"); if (b) set({ borderWeight: b.dataset.weight }); });
+    $("#borderGap").addEventListener("input", e => { state.borderGap = Number(e.target.value); save(); renderCard(); });
     $("#btnAll").addEventListener("click", () => set({ off: [] }));
     $("#btnNone").addEventListener("click", () => set({ off: [...state.order] }));
     $("#btnReset").addEventListener("click", () => set({ order: DATA.adhkar.map(a => a.id) }));
