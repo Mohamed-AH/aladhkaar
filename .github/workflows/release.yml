@@ -1,16 +1,13 @@
 # Builds aladhkaar-update.zip (the layout deploy.sh expects) and attaches it to a GitHub release.
-# Run it by pushing a tag such as v18, or from the Actions tab ("Run workflow").
+# Runs on every push to main. The release is named after VERSION in public/sw.js (e.g. adhkar-v17),
+# so bump VERSION for a new release; a push that keeps the same VERSION refreshes that release's zip.
 # Latest zip: https://github.com/Mohamed-AH/aladhkaar/releases/latest/download/aladhkaar-update.zip
 name: Release update zip
 
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Release tag, e.g. v18"
-        required: true
 
 permissions:
   contents: write
@@ -26,14 +23,20 @@ jobs:
           mkdir -p build/aladhkaar
           git archive HEAD | tar -x -C build/aladhkaar
           rm -rf build/aladhkaar/.github build/aladhkaar/README.md
-          cd build && zip -qr ../aladhkaar-update.zip aladhkaar
+          (cd build && zip -qr ../aladhkaar-update.zip aladhkaar)
+          TAG=$(grep -oE 'adhkar-v[0-9]+' public/sw.js | head -n 1)
+          test -n "$TAG"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
 
-      - name: Create release
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          gh release create "$TAG" aladhkaar-update.zip \
-            --target "$GITHUB_SHA" \
-            --title "aladhkaar.com $TAG" \
-            --notes "Download aladhkaar-update.zip to your Downloads folder, then run deploy-adhkar (or bash /d/aladhkaar/deploy.sh)."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" aladhkaar-update.zip --clobber
+          else
+            gh release create "$TAG" aladhkaar-update.zip \
+              --target "$GITHUB_SHA" \
+              --title "aladhkaar.com $TAG" \
+              --notes "Download aladhkaar-update.zip to your Downloads folder, then run deploy-adhkar (or bash /d/aladhkaar/deploy.sh)."
+          fi
