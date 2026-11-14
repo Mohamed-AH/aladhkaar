@@ -30,7 +30,7 @@ h3{font-size:19px;font-weight:500}
 .lede{color:var(--ink-2);max-width:60ch;margin:0}
 
 /* top bar */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none;color:var(--ink)}
@@ -188,3 +188,8 @@ h1.eyebrow{margin:0}
 @media (max-width:360px){
   .top .brand > span:first-of-type{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }
+
+/* Until the chosen language is filled in (at most a moment), keep the English text from flashing. */
+.i18n-wait body{visibility:hidden}
+/* Safari before 15 has no aspect-ratio: keep the picture stack its shape. */
+@supports not (aspect-ratio:1/1){.stack{height:0;padding-bottom:108%}.stack img{height:auto}}

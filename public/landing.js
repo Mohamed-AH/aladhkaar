@@ -332,6 +332,7 @@
     document.getElementById("lang").value = lang;
     document.getElementById("langCode").textContent = lang.toUpperCase();
     fill();
+    root.classList.remove("i18n-wait");
   }
 
   // Rotating texts: one from the Quran or Sunnah, one from the Salaf. A new pair each day.

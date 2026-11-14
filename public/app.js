@@ -2,6 +2,16 @@
 (() => {
   "use strict";
 
+  // Older Safari (iOS 15.0-15.3, e.g. some iPhone 7s) has no <dialog>: give the windows a simple stand-in.
+  if (typeof HTMLDialogElement !== "function") {
+    document.documentElement.classList.add("no-dialog");
+    document.querySelectorAll("dialog").forEach(d => {
+      d.showModal = d.show = () => d.setAttribute("open", "");
+      d.close = () => { if (d.hasAttribute("open")) { d.removeAttribute("open"); d.dispatchEvent(new Event("close")); } };
+      d.addEventListener("submit", e => { if ((e.target.getAttribute("method") || "").toLowerCase() === "dialog") { e.preventDefault(); d.close(); } });
+    });
+  }
+
   const STORE_KEY = "adhkar-maker:v1";
   const D = window.Design;
 
@@ -298,7 +308,7 @@
     D.DESIGNS.forEach(d => {
       const b = document.createElement("button");
       b.type = "button"; b.className = "tpl"; b.setAttribute("role", "listitem"); b.dataset.design = d.id;
-      b.innerHTML = `<span class="tpl-face"><img src="templates/${d.id}.webp?v=19" width="480" height="679" alt="" decoding="async" loading="lazy"></span><span class="tpl-name">${esc(L(d.name))}</span>`;
+      b.innerHTML = `<span class="tpl-face"><img src="templates/${d.id}.webp?v=20" width="480" height="679" alt="" decoding="async" loading="lazy"></span><span class="tpl-name">${esc(L(d.name))}</span>`;
       b.addEventListener("click", () => {
         hasSaved = true;
         Object.assign(state, designPatch(d)); save();
@@ -806,8 +816,14 @@
   }
 
   let minPagesNeeded = 1, layoutMemo = null, titleTimer = 0;
+  // On a phone the card is hidden while editing, so each change only queues a redraw. The card is drawn
+  // a moment after the last tap, or at once when the preview, Save or Share is opened. Taps stay instant.
+  let cardTimer = 0, cardNow = false;
+  const phoneEditing = () => document.body.dataset.view === "edit" && matchMedia("(max-width: 860px)").matches;
+  function flushCard() { if (cardTimer) { clearTimeout(cardTimer); cardTimer = 0; cardNow = true; try { renderCard(); } finally { cardNow = false; } } }
   function renderCard() {
     if (!cardDrawn || document.body.dataset.step === "start") { cardDirty = true; return; }
+    if (!cardNow && phoneEditing()) { clearTimeout(cardTimer); cardTimer = setTimeout(flushCard, 800); return; }
     if (!cardFontsReady()) {
       const key = JSON.stringify(cardFontSpecs());
       if (!fontWait || fontWait.key !== key) {
@@ -1128,6 +1144,7 @@
     document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
     const dlg = $("#exportDialog");
     $("#btnExport").addEventListener("click", () => {
+      flushCard();
       const n = document.querySelectorAll("#pages .card").length;
       const sizeName = pageSizeName(state.pageSize);
       $("#exportSummary").textContent = t("exSummary")(sizeName, n);
@@ -1176,6 +1193,7 @@
 
   function setView(v) {
     document.body.dataset.view = v;
+    if (v === "preview") flushCard();
     document.querySelectorAll(".tab").forEach(b => b.dataset.view === v ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
     if (v === "preview") requestAnimationFrame(scaleCard);
     window.scrollTo(0, 0);
@@ -1336,6 +1354,7 @@
     $("#btnShare").addEventListener("click", () => {
       $("#btnShareImage").hidden = !canShareFiles;
       $("#shareStatus").textContent = ""; $("#shareLinkOut").hidden = true;
+      flushCard();
       refreshLinks();
       Exporter.preload(false);
       dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
