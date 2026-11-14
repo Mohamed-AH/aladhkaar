@@ -82,6 +82,6 @@ The site is hosted on **Cloudflare Pages** (project `adhkar-maker`) with Pages F
 - `deploy.sh` takes the newest `aladhkaar-update*.zip` from Downloads, copies it over the local folder (leaving `wrangler.toml` alone) and deploys.
 - The latest update zip is always at [releases/latest/download/aladhkaar-update.zip](https://github.com/Mohamed-AH/aladhkaar/releases/latest/download/aladhkaar-update.zip). It is rebuilt by `.github/workflows/release.yml` on every push to `main`, as a release named after `VERSION` in `public/sw.js`.
 
-When you change CSS or JS, bump the `?v=` numbers in the HTML and `VERSION` in `public/sw.js` so browsers pick up the new files. The current version is `adhkar-v17`.
+When you change CSS or JS, bump the `?v=` numbers in the HTML and `VERSION` in `public/sw.js` so browsers pick up the new files. The current version is `adhkar-v18`.
 
 Secrets (`ADMIN_TOKEN`, `IP_SALT`, `TO_EMAIL`, `TURNSTILE_SECRET`, `RESEND_API_KEY`) are set with `wrangler pages secret put` and are never stored in this repo.

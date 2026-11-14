@@ -474,7 +474,7 @@ textarea { resize: vertical; min-height: 120px; line-height: 1.6; font: inherit;
 
 /* ---------- First load ---------- */
 .booting .panel .group { visibility: hidden; }
-.booting .pages::before, .booting .panel::before {
+.booting .pages::before, .booting .panel::before, .pages:empty::before {
   content: ""; width: 28px; height: 28px; margin: 30vh auto 0; border-radius: 50%;
   border: 2.5px solid var(--line); border-top-color: var(--accent); animation: spin .8s linear infinite; display: block;
 }
@@ -505,3 +505,6 @@ html:not([dir="rtl"]):not([lang="bn"]) { --ui-font: "IBM Plex Sans", "IBM Plex S
   .top-actions { gap: 6px; }
 }
 .brand { min-height: 24px; min-width: 24px; }
+/* Hidden pages used to measure the adhkar before the real pages are drawn. */
+.page-probe { contain: strict; position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
+.page-probe > .card { position: absolute; top: 0; left: 0; }

@@ -260,6 +260,36 @@
   }
 
   const L = o => o[state.lang] || (NAMES[state.lang] || {})[o.en] || o.en;
+  // Font previews download their font only when scrolled near, not all at once on opening.
+  // They also wait until the card is drawn, so they don't slow down the card's own fonts.
+  let nearObserver = null, nearQueue = [];
+  function startPreviews() { const q = nearQueue; nearQueue = null; q.forEach(([el, fn]) => whenNear(el, fn)); }
+  function whenNear(el, fn) {
+    if (nearQueue) { nearQueue.push([el, fn]); return; }
+    if (!("IntersectionObserver" in window)) { fn(); return; }
+    nearObserver = nearObserver || new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      nearObserver.unobserve(e.target);
+      const f = e.target._near; delete e.target._near; if (f) f();
+    }), { rootMargin: "400px" });
+    el._near = fn; nearObserver.observe(el);
+  }
+
+  /* Card fonts. The pages are measured, so the card's fonts must be loaded first;
+     otherwise the layout is worked out with a stand-in font and has to be redone. */
+  const AR_SAMPLE = "بسم الله الرحمن الرحيم", LAT_SAMPLE = "Aa 123";
+  function cardFontSpecs() {
+    const text = (D.FONTS.find(f => f.id === state.font) || D.FONTS[0]).css;
+    const tf = D.TITLE_FONTS.find(f => f.id === state.titleFont);
+    const title = tf && tf.css ? tf.css : text;
+    const en = '"IBM Plex Sans Arabic"';
+    return [["400 20px " + text, AR_SAMPLE], ["700 20px " + title, AR_SAMPLE], ["700 20px " + title, LAT_SAMPLE],
+      ["300 20px " + en, LAT_SAMPLE], ["500 20px " + en, LAT_SAMPLE], ["400 20px " + en, LAT_SAMPLE]];
+  }
+  const cardFontsReady = () => !document.fonts || cardFontSpecs().every(([f, x]) => { try { return document.fonts.check(f, x); } catch (_) { return true; } });
+  const loadCardFonts = () => !document.fonts ? Promise.resolve()
+    : Promise.all(cardFontSpecs().map(([f, x]) => document.fonts.load(f, x).catch(() => {})));
+  let fontWait = null;
   function buildDesignControls() {
     const sw = $("#themeSwatches"); sw.innerHTML = "";
     D.THEMES.forEach(th => {
@@ -276,7 +306,8 @@
       const pt = D.PATTERNS.find(p => p.id === d.pattern);
       const b = document.createElement("button");
       b.type = "button"; b.className = "design"; b.setAttribute("role", "radio"); b.dataset.design = d.id;
-      b.style.cssText = `--d-bg:${d.bg};--d-ink:${d.titleInk || d.ink};--d-ac:${d.accent};--d-atmo:${d.atmo};--d-pat:${pt.make(d.accent)};--d-font:${tf.css}`;
+      b.style.cssText = `--d-bg:${d.bg};--d-ink:${d.titleInk || d.ink};--d-ac:${d.accent};--d-atmo:${d.atmo};--d-pat:${pt.make(d.accent)}`;
+      whenNear(b, () => b.style.setProperty("--d-font", tf.css));
       b.innerHTML = `<span class="design-face"><span class="design-pat"></span><span class="design-word" lang="ar" dir="rtl">أذكار</span><span class="design-rule"></span></span><span class="design-name">${esc(L(d.name))}</span>`;
       b.addEventListener("click", () => set({
         theme: d.id, accent: null, bg: null, font: d.font, titleFont: d.titleFont, pattern: d.pattern, place: d.place,
@@ -292,7 +323,7 @@
       b.type = "button"; b.className = "font-opt"; b.setAttribute("role", "radio"); b.dataset.font = f.id;
       b.innerHTML = `<span class="font-sample" lang="ar" dir="rtl"></span><span class="font-name">${esc(L(f.name))}</span>`;
       const sp = b.querySelector(".font-sample");
-      sp.textContent = sample; if (css) sp.style.fontFamily = css;
+      sp.textContent = sample; if (css) whenNear(b, () => { sp.style.fontFamily = css; });
       b.addEventListener("click", () => set({ [key]: f.id }));
       list.append(b);
     };
@@ -363,6 +394,8 @@
     check("#titleFontList .font-opt", "font", state.titleFont);
     check("#fontList .font-opt", "font", state.font);
     $("#titleFontList").style.setProperty("--font-same", (D.FONTS.find(f => f.id === state.font) || D.FONTS[0]).css);
+    // The adhkar list uses the card's own font, so no second Arabic font has to download.
+    $("#dhikrList").style.setProperty("--card-ar-font", (D.FONTS.find(f => f.id === state.font) || D.FONTS[0]).css);
     check("#figureChips .chip", "figure", state.figure);
     check("#skinSwatches .swatch", "skin", state.skin);
     check("#placeGroup button", "place", state.place);
@@ -499,7 +532,7 @@
       </footer>` : "";
   }
 
-  function newPage(first) {
+  function newPage(first, into) {
     const { title, isLatin } = cardTitle();
     const card = document.createElement("article");
     card.className = "card"; card.dir = "rtl"; card.lang = "ar";
@@ -524,6 +557,7 @@
       (state.credit ? `<div class="card-credit" dir="ltr">aladhkaar.com</div>` : "") +
       `<div class="card-inner">${head}<div class="card-body"><ol class="card-list${state.numbers ? "" : " no-num"}${state.colRule ? " col-rule" : ""}"></ol></div></div>`;
     (card.querySelector(".card-title") || card.querySelector(".card-runtitle")).textContent = title;
+    if (into) { into.append(card); return card; }
     const wrap = document.createElement("div");
     wrap.className = "page-wrap";
     wrap.append(card);
@@ -532,12 +566,142 @@
     return card;
   }
 
+  /* Fast layout. Laying out the real pages once per dhikr and per tried text size was the slowest
+     part of the editor. Instead, hidden "probe" pages hold every dhikr at once: one layout gives the
+     height of each dhikr and the room on a page, and the pages are worked out from those numbers.
+     The pages that are finally drawn are checked for overflow; if a page does not fit, the exact
+     (slow) method runs instead, so nothing is ever cut off. */
+  const listOf = c => c.querySelector(".card-list");
+  const bodyOf = c => c.querySelector(".card-body");
+  const overflows = c => listOf(c).scrollHeight > bodyOf(c).clientHeight + 1;
+  function setupPage(card, fs, cols) { card.style.setProperty("--fs", fs + "px"); setCols(listOf(card), cols); }
+
+  function makeProbe(items, foot) {
+    const host = document.createElement("div");
+    host.className = "page-probe"; host.setAttribute("aria-hidden", "true");
+    $("#pages").parentElement.append(host);
+    const listHTML = items.map((a, i) => itemHTML(a, i + 1)).join("");
+    const make = (first, withItems) => {
+      const c = newPage(first, host);
+      if (withItems) listOf(c).innerHTML = listHTML;
+      if (foot) c.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
+      return c;
+    };
+    // a: first page, b: later pages (no figure, short running head). Only a figure changes the width.
+    const a = make(true, true);
+    const b = make(false, D.FIGURES.some(f => f.id === state.figure && f.id !== "none"));
+    const cache = new Map();
+    const rect = el => el.getBoundingClientRect().height;
+    const outer = el => { const cs = getComputedStyle(el); return rect(el) + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom); };
+    function measure(fs, cols) {
+      const key = fs + "|" + cols;
+      if (cache.has(key)) return cache.get(key);
+      [a, b].forEach(c => setupPage(c, fs, cols));
+      const heights = c => {
+        const lis = [...listOf(c).children];
+        if (!lis.length) return null;
+        const hs = lis.map(rect);
+        hs[hs.length - 1] += line; // the last dhikr has no bottom line; give it one like the rest
+        return hs;
+      };
+      const line = parseFloat(getComputedStyle(listOf(a).firstElementChild).borderBottomWidth) || 0;
+      const room = c => {
+        const f = c.querySelector(".card-foot");
+        const withFoot = bodyOf(c).clientHeight;
+        return { full: f ? withFoot + outer(f) : withFoot, foot: withFoot };
+      };
+      const hA = heights(a);
+      const m = { line, hA, hB: heights(b) || hA, rA: room(a), rB: room(b) };
+      cache.set(key, m);
+      return m;
+    }
+    // Do these dhikr fit in a page body of height H, in this many columns?
+    function fits(hs, line, H, cols) {
+      const lim = H + 1;
+      if (cols === 1) return hs.reduce((x, y) => x + y, 0) - line <= lim;
+      let used = 1, cur = 0;
+      for (let i = 0; i < hs.length; i++) {
+        const h = i === hs.length - 1 ? hs[i] - line : hs[i];
+        if (h > lim) return false;
+        if (cur > 0 && cur + h > lim) { used++; cur = h; } else cur += h;
+      }
+      return used <= cols;
+    }
+    // Same rules as the exact method: fill each page in order, at least one dhikr per page, footer last.
+    const plan = (fs, cols) => planFrom(measure(fs, cols), cols);
+    function planFrom(m, cols) {
+      const pagesOut = [];
+      let cur = [];
+      const hOf = (i, first) => (first ? m.hA : m.hB)[i];
+      for (let i = 0; i < items.length; i++) {
+        const first = pagesOut.length === 0;
+        const next = cur.concat(i);
+        if (cur.length && !fits(next.map(j => hOf(j, first)), m.line, (first ? m.rA : m.rB).full, cols)) {
+          pagesOut.push(cur); cur = [i];
+        } else cur = next;
+      }
+      let footPage = false;
+      if (foot) {
+        const first = pagesOut.length === 0;
+        if (!fits(cur.map(j => hOf(j, first)), m.line, (first ? m.rA : m.rB).foot, cols)) footPage = true;
+      }
+      pagesOut.push(cur);
+      if (footPage) pagesOut.push([]);
+      return { pages: pagesOut, footPage };
+    }
+    // Guess the largest size that fits, from two measured sizes: each dhikr's height, and the room
+    // on a page, are followed from one size to the other, so few sizes have to be laid out.
+    const guesses = new Map();
+    function guess(fs0, cols, maxPages) {
+      const k = fs0 + "|" + cols + "|" + maxPages;
+      if (!guesses.has(k)) guesses.set(k, guessNow(fs0, cols, maxPages));
+      return guesses.get(k);
+    }
+    function guessNow(fs0, cols, maxPages) {
+      const at = model => {
+        let lo = fs0, hi = fs0 * 6;
+        if (planFrom(model(lo), cols).pages.length > maxPages) return 0;
+        for (let i = 0; i < 30; i++) { const mid = (lo + hi) / 2; planFrom(model(mid), cols).pages.length <= maxPages ? (lo = mid) : (hi = mid); }
+        return lo;
+      };
+      const m0 = measure(fs0, cols);
+      // First guess: heights grow with the square of the size.
+      const sq = fs => { const k = (fs / fs0) ** 2; return { line: m0.line, hA: m0.hA.map(h => h * k), hB: m0.hB.map(h => h * k), rA: m0.rA, rB: m0.rB }; };
+      const g1 = at(sq);
+      if (!g1 || Math.abs(g1 - fs0) < 0.05) return g1;
+      const m1 = measure(g1, cols), L = Math.log(g1 / fs0);
+      const grow = (a, b, fs) => { const p = a > 0 && b > 0 ? Math.log(b / a) / L : 2; return b * (fs / g1) ** p; };
+      const lin = (a, b, fs) => b + (b - a) * (fs - g1) / (g1 - fs0);
+      const room = (a, b, fs) => ({ full: lin(a.full, b.full, fs), foot: lin(a.foot, b.foot, fs) });
+      return at(fs => ({ line: m1.line, hA: m1.hA.map((h, i) => grow(m0.hA[i], h, fs)), hB: m1.hB.map((h, i) => grow(m0.hB[i], h, fs)),
+        rA: room(m0.rA, m1.rA, fs), rB: room(m0.rB, m1.rB, fs) }));
+    }
+    return {
+      count: (fs, cols) => plan(fs, cols).pages.length,
+      guess,
+      plan,
+      remove: () => host.remove()
+    };
+  }
+
+  // Draw the pages from a plan, then check them. Returns false if any page overflows.
+  function drawPlan(items, foot, fs, cols, pl) {
+    $("#pages").innerHTML = "";
+    const cards = pl.pages.map((idx, p) => {
+      const card = newPage(p === 0); setupPage(card, fs, cols);
+      listOf(card).innerHTML = idx.map(i => itemHTML(items[i], i + 1)).join("");
+      return card;
+    });
+    if (foot) cards[cards.length - 1].querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
+    return !cards.some(c => listOf(c).children.length > 1 && overflows(c))
+      && !(pl.footPage && overflows(cards[cards.length - 1]));
+  }
+
   function paginate(items, foot, fs, cols) {
     $("#pages").innerHTML = "";
-    const listOf = c => c.querySelector(".card-list");
-    const over = c => listOf(c).scrollHeight > c.querySelector(".card-body").clientHeight + 1;
+    const over = overflows;
     const addFoot = c => c.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
-    const setup = c => { c.style.setProperty("--fs", fs + "px"); setCols(listOf(c), cols); };
+    const setup = c => setupPage(c, fs, cols);
     let card = newPage(true); setup(card);
     items.forEach((a, i) => {
       const tmp = document.createElement("ol");
@@ -561,8 +725,15 @@
     return $("#pages").children.length;
   }
 
-  let minPagesNeeded = 1;
+  let minPagesNeeded = 1, layoutMemo = null, titleTimer = 0;
   function renderCard() {
+    if (!cardFontsReady()) {
+      const key = JSON.stringify(cardFontSpecs());
+      if (!fontWait || fontWait.key !== key) {
+        fontWait = { key };
+        loadCardFonts().then(() => { if (fontWait && fontWait.key === key) { fontWait = null; renderCard(); } });
+      }
+    }
     const pages = $("#pages");
     pages.innerHTML = "";
     [pageW, pageH] = PAGE[state.pageSize] || PAGE.a4;
@@ -575,46 +746,92 @@
     // Never shrink below a readable size: if the list can't fit, use more pages.
     const minFs = 11 * u;
     const fixed = pickedCols();
-    if (items.length && state.textSize === "fit") {
-      const need = fixed ? paginate(items, foot, minFs, fixed) : Math.min(paginate(items, foot, minFs, 2), paginate(items, foot, minFs, 1));
-      minPagesNeeded = need;
-      fitN = Math.min(8, Math.max(fitN, need));
-      pages.innerHTML = "";
+    // Changes that don't move the text (colors, patterns, the figure's place) reuse the last layout.
+    const memoKey = items.length ? JSON.stringify([items.map((a, i) => itemHTML(a, i + 1)).join(""), foot, state.pageSize, state.textSize,
+      fitN, fixed, cardTitle().title, state.title == null, state.mode, state.lang, state.font, state.titleFont, state.figure, state.figSize,
+      state.pattern === "none" ? "" : state.place, state.border, state.borderWeight, state.borderGap]) : "";
+    const memo = layoutMemo && layoutMemo.key === memoKey ? layoutMemo : null;
+    if (memo) {
+      minPagesNeeded = memo.need; fitN = memo.fitN;
+      if (!drawPlan(items, foot, memo.fs, memo.cols, memo.plan)) layoutMemo = null;
     }
-
-    if (!items.length) {
-      const card = newPage(true);
-      card.querySelector(".card-body").innerHTML = `<p class="card-en" style="text-align:center;margin-top:40%">${esc(t("emptyCard"))}</p>`;
-      card.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
-    } else if (state.textSize === "fit" && fitN === 1) {
-      const card = newPage(true);
-      card.querySelector(".card-list").innerHTML = items.map((a, i) => itemHTML(a, i + 1)).join("");
-      card.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
-      fitCard(card, u, fixed);
-    } else if (state.textSize === "fit") {
-      // Largest text that still fits in the chosen number of pages.
-      const search = cols => {
-        let lo = minFs, hi = 60 * u;
-        for (let i = 0; i < 12; i++) {
-          const mid = (lo + hi) / 2;
-          paginate(items, foot, mid, cols) <= fitN ? (lo = mid) : (hi = mid);
-        }
-        return lo;
-      };
-      let best;
-      if (fixed) best = { fs: search(fixed), cols: fixed };
-      else {
-        const one = search(1);
-        best = { fs: one, cols: 1 };
-        if (one < 21 * u) {
-          const two = search(2);
-          if (two > one * 1.12) best = { fs: two, cols: 2 };
-        }
+    const probe = items.length && !(memo && layoutMemo) ? makeProbe(items, foot) : null;
+    if (memo && layoutMemo) { /* drawn from the last layout */ }
+    else try {
+      layoutMemo = null;
+      if (items.length && state.textSize === "fit") {
+        const need = fixed ? probe.count(minFs, fixed) : Math.min(probe.count(minFs, 2), probe.count(minFs, 1));
+        minPagesNeeded = need;
+        fitN = Math.min(8, Math.max(fitN, need));
       }
-      paginate(items, foot, Math.floor(best.fs * 10) / 10, best.cols);
-    } else {
-      paginate(items, foot, TEXT[state.textSize] * u, fixed || (state.textSize === "m" ? 2 : 1));
-    }
+      // Largest text size (to 0.1px) that keeps the card within maxPages. A first guess from the
+      // measured heights narrows the range, so only a few sizes have to be laid out.
+      const search = (cols, lo, hi, maxPages) => {
+        const ok = fs => probe.count(fs, cols) <= maxPages;
+        let good = lo, bad = hi;
+        const g = probe.guess(minFs, cols, maxPages);
+        if (g > lo && g < hi) {
+          let step = g * 0.01, x = Math.max(lo, g - step);
+          if (ok(x)) {
+            good = x;
+            let y = Math.min(hi, g + step);
+            while (y < hi && ok(y)) { good = y; step *= 2; y = Math.min(hi, y + step); }
+            if (y < hi) bad = y;
+          } else {
+            bad = x;
+            let y = x - step;
+            while (y > lo && !ok(y)) { bad = y; step *= 2; y -= step; }
+            if (y > lo) good = y;
+          }
+        }
+        if (good === lo && !ok(lo)) return lo;
+        while (bad - good > 0.1) { const mid = (good + bad) / 2; ok(mid) ? (good = mid) : (bad = mid); }
+        const top = Math.floor(bad * 10) / 10;
+        return top > good && ok(top) ? top : good;
+      };
+      const best = (lo, hi, maxPages) => {
+        if (fixed) return { fs: search(fixed, lo, hi, maxPages), cols: fixed };
+        // When the guesses are far apart, the choice between one and two columns is already clear.
+        const g1 = probe.guess(minFs, 1, maxPages), g2 = probe.guess(minFs, 2, maxPages);
+        if (g1 > 21 * u * 1.06 || (g1 && g2 < g1 * 1.12 * 0.92)) return { fs: search(1, lo, hi, maxPages), cols: 1 };
+        if (g1 < 21 * u * 0.94 && g2 > g1 * 1.12 * 1.08) return { fs: search(2, lo, hi, maxPages), cols: 2 };
+        const one = search(1, lo, hi, maxPages);
+        let b = { fs: one, cols: 1 };
+        if (one < 21 * u) {
+          const two = search(2, lo, hi, maxPages);
+          if (two > one * 1.12) b = { fs: two, cols: 2 };
+        }
+        return b;
+      };
+      const draw = (fs, cols, exact) => {
+        const pl = probe.plan(fs, cols);
+        if (!drawPlan(items, foot, fs, cols, pl)) { exact(); return; }
+        if (cardFontsReady()) layoutMemo = { key: memoKey, need: minPagesNeeded, fitN, fs, cols, plan: pl };
+      };
+
+      if (!items.length) {
+        const card = newPage(true);
+        card.querySelector(".card-body").innerHTML = `<p class="card-en" style="text-align:center;margin-top:40%">${esc(t("emptyCard"))}</p>`;
+        card.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
+      } else if (state.textSize === "fit" && fitN === 1) {
+        const b = best(8 * u, 36 * u, 1);
+        const fs = Math.floor(b.fs * 10) / 10;
+        draw(fs, b.cols, () => {
+          $("#pages").innerHTML = "";
+          const card = newPage(true);
+          listOf(card).innerHTML = items.map((a, i) => itemHTML(a, i + 1)).join("");
+          card.querySelector(".card-inner").insertAdjacentHTML("beforeend", foot);
+          fitCard(card, u, fixed);
+        });
+      } else if (state.textSize === "fit") {
+        const b = best(minFs, 60 * u, fitN);
+        const fs = Math.floor(b.fs * 10) / 10;
+        draw(fs, b.cols, () => paginate(items, foot, fs, b.cols));
+      } else {
+        const fs = TEXT[state.textSize] * u, cols = fixed || (state.textSize === "m" ? 2 : 1);
+        draw(fs, cols, () => paginate(items, foot, fs, cols));
+      }
+    } finally { if (probe) probe.remove(); }
     const wraps = [...pages.children];
     if (wraps.length > 1) wraps.forEach((w, i) => w.insertAdjacentHTML("beforeend",
       `<div class="page-label">${esc(t("pageOf")(i + 1, wraps.length))}</div>`));
@@ -786,7 +1003,8 @@
     $("#titleInput").addEventListener("input", e => {
       const v = e.target.value;
       state.title = v.trim() === "" || v === autoTitle()[titleLang()] ? null : v;
-      save(); renderCard();
+      save();
+      clearTimeout(titleTimer); titleTimer = setTimeout(renderCard, 150);
     });
     $("#modeGroup").addEventListener("click", e => { const b = e.target.closest("button"); if (b) set({ mode: b.dataset.mode }); });
     $("#optTranslation").addEventListener("change", e => set({ translation: e.target.checked }));
@@ -819,13 +1037,6 @@
     $("#btnNone").addEventListener("click", () => set({ off: [...state.order] }));
     $("#btnReset").addEventListener("click", () => set({ order: DATA.adhkar.map(a => a.id) }));
 
-    Sortable.create($("#dhikrList"), {
-      handle: ".grip", animation: 160, ghostClass: "sortable-ghost", chosenClass: "sortable-chosen",
-      onEnd: () => {
-        state.order = [...document.querySelectorAll("#dhikrList .dhikr-row")].map(li => Number(li.dataset.id));
-        save(); renderControls(); renderCard();
-      }
-    });
 
     document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
     const dlg = $("#exportDialog");
@@ -834,6 +1045,7 @@
       const sizeName = pageSizeName(state.pageSize);
       $("#exportSummary").textContent = t("exSummary")(sizeName, n);
       $("#exportStatus").textContent = "";
+      Exporter.preload(true);
       dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
     });
     let busy = false;
@@ -862,7 +1074,17 @@
     $("#optCredit").addEventListener("change", e => set({ credit: e.target.checked }));
     $("#optSources").addEventListener("change", e => set({ sources: e.target.checked }));
     new ResizeObserver(scaleCard).observe($("#stageInner"));
-    if (document.fonts) document.fonts.ready.then(() => { renderCard(); scaleCard(); });
+  }
+
+  // Drag to reorder: the drag library loads after the card is on screen.
+  function enableDrag() {
+    Exporter.loadScript("vendor/Sortable.min.js").then(() => Sortable.create($("#dhikrList"), {
+      handle: ".grip", animation: 160, ghostClass: "sortable-ghost", chosenClass: "sortable-chosen",
+      onEnd: () => {
+        state.order = [...document.querySelectorAll("#dhikrList .dhikr-row")].map(li => Number(li.dataset.id));
+        save(); renderControls(); renderCard();
+      }
+    })).catch(() => {});
   }
 
   function setView(v) {
@@ -1028,6 +1250,7 @@
       $("#btnShareImage").hidden = !canShareFiles;
       $("#shareStatus").textContent = ""; $("#shareLinkOut").hidden = true;
       refreshLinks();
+      Exporter.preload(false);
       dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
     });
     $("#shareClose").addEventListener("click", () => dlg.close());
@@ -1170,9 +1393,14 @@
     bind();
     bindCards();
     setView("edit");
+    renderControls(); renderList();
     document.body.classList.remove("booting");
-    render();
+    // Wait for the card's fonts (at most a few seconds on a slow connection) so the card is drawn once.
+    await Promise.race([loadCardFonts(), new Promise(ok => setTimeout(ok, 2500))]);
+    renderCard();
     openSharedCard();
+    startPreviews();
+    enableDrag();
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }

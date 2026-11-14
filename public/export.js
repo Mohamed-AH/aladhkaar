@@ -36,6 +36,7 @@ window.Exporter = (() => {
   }
 
   async function renderPage(card, w, h, ratio, fontCSS) {
+    await loadImageLib();
     return htmlToImage.toCanvas(card, {
       width: w, height: h, pixelRatio: ratio, fontEmbedCSS: fontCSS, cacheBust: false,
       style: { transform: "none", left: "0", top: "0", boxShadow: "none", borderRadius: "0" }
@@ -50,13 +51,20 @@ window.Exporter = (() => {
     setTimeout(() => URL.revokeObjectURL(url), 30000);
   }
 
-  // The PDF library (about 350 KB) loads only when someone saves a PDF.
-  let pdfLib = null;
-  const loadPdfLib = () => window.jspdf ? Promise.resolve() : (pdfLib = pdfLib || new Promise((ok, fail) => {
+  // The PDF library (about 350 KB) and the image library load only when they are needed.
+  // Opening the "Save & print" or "Share" window starts loading them, so they are ready on the tap.
+  const scripts = {};
+  const loadScript = src => scripts[src] = scripts[src] || new Promise((ok, fail) => {
     const sc = document.createElement("script");
-    sc.src = "vendor/jspdf.umd.min.js"; sc.onload = ok; sc.onerror = () => { pdfLib = null; fail(new Error("pdf lib")); };
+    sc.src = src; sc.onload = ok; sc.onerror = () => { delete scripts[src]; sc.remove(); fail(new Error("could not load " + src)); };
     document.head.append(sc);
-  }));
+  });
+  const loadPdfLib = () => window.jspdf ? Promise.resolve() : loadScript("vendor/jspdf.umd.min.js");
+  const loadImageLib = () => window.htmlToImage ? Promise.resolve() : loadScript("vendor/html-to-image.js");
+  function preload(withPdf) {
+    loadImageLib().catch(() => {});
+    if (withPdf) loadPdfLib().catch(() => {});
+  }
 
   const toBlob = (canvas, type, q) => new Promise(ok => canvas.toBlob(ok, type, q));
 
@@ -112,5 +120,5 @@ window.Exporter = (() => {
     window.print();
   }
 
-  return { pdf, png, print, shareImage, download };
+  return { pdf, png, print, shareImage, download, preload, loadScript };
 })();
