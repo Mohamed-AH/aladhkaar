@@ -52,7 +52,7 @@ body {
   margin: 0; background: var(--bg); color: var(--ink);
   font-family: var(--ui-font); font-size: 15px; line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  display: flex; flex-direction: column; min-height: 100dvh;
+  display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh;
 }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -85,7 +85,7 @@ button { cursor: pointer; }
 .panel {
   border-inline-end: 1px solid var(--line); background: var(--bg);
   overflow-y: auto; padding: 8px 20px 40px;
-  height: calc(100dvh - 63px); position: sticky; top: 63px;
+  height: calc(100vh - 63px); height: calc(100dvh - 63px); position: sticky; top: 63px;
 }
 .stage {
   min-width: 0; position: relative;
@@ -94,7 +94,7 @@ button { cursor: pointer; }
     var(--stage-pat), var(--surface-2);
 }
 .stage-inner {
-  position: sticky; top: 63px; height: calc(100dvh - 63px);
+  position: sticky; top: 63px; height: calc(100vh - 63px); height: calc(100dvh - 63px);
   display: flex; flex-direction: column; align-items: center; padding: 32px 32px 48px; overflow-y: auto;
 }
 
@@ -232,9 +232,9 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focu
   :root { --tabbar-h: 60px; }
   .layout { grid-template-columns: 1fr; }
   .panel { position: static; height: auto; border: 0; padding: 4px 16px calc(var(--tabbar-h) + 24px); }
-  .stage-inner { position: static; height: calc(100dvh - 63px - var(--tabbar-h)); padding: 16px; }
+  .stage-inner { position: static; height: calc(100vh - 63px - var(--tabbar-h)); height: calc(100dvh - 63px - var(--tabbar-h)); padding: 16px; }
   body[data-view="edit"] .stage { position: fixed; inset: 63px 0 var(--tabbar-h) 0; visibility: hidden; pointer-events: none; }
-  .stage { min-height: calc(100dvh - 63px - var(--tabbar-h)); }
+  .stage { min-height: calc(100vh - 63px - var(--tabbar-h)); min-height: calc(100dvh - 63px - var(--tabbar-h)); }
   body[data-view="preview"] .panel { display: none; }
   .tabbar {
     display: grid; grid-template-columns: 1fr 1fr; position: fixed; inset: auto 0 0 0; z-index: 10;
@@ -322,7 +322,7 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focu
   border: 0; padding: 0; border-radius: 18px; width: min(440px, calc(100vw - 32px)); background: var(--surface); color: var(--ink);
   box-shadow: 0 30px 80px -20px rgb(0 0 0 / .35);
 }
-.sheet::backdrop { background: rgb(20 22 24 / .45); backdrop-filter: blur(3px); }
+.sheet::backdrop { background: rgb(20 22 24 / .45); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 .sheet[open] { animation: settle .35s cubic-bezier(.2,.7,.2,1); }
 .sheet-inner { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; }
@@ -573,4 +573,13 @@ body:not(.quick) .panel .adv { animation: rise .35s cubic-bezier(.2,.7,.2,1) bot
 @media (prefers-reduced-motion: reduce) {
   .tpl-face, .more-options .mo-chev { transition: none; }
   body:not(.quick) .panel .adv { animation: none; }
+}
+
+/* Older Safari (iOS 15.0-15.3) has no <dialog>: app.js gives it a stand-in, styled here. */
+.no-dialog dialog:not([open]) { display: none; }
+.no-dialog dialog[open] { position: fixed; inset: 0; margin: auto; z-index: 50; height: fit-content; max-height: 90vh; overflow: auto; }
+/* Safari before 15 has no aspect-ratio. */
+@supports not (aspect-ratio: 1 / 1) {
+  .tpl-cont .tpl-face { min-height: 240px; }
+  .design-face { min-height: 72px; }
 }
