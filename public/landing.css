@@ -188,3 +188,6 @@ h1.eyebrow{margin:0}
 @media (max-width:360px){
   .top .brand > span:first-of-type{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }
+
+/* Until the chosen language is filled in (at most a moment), keep the English text from flashing. */
+.i18n-wait body{visibility:hidden}

@@ -1,8 +1,8 @@
 /* Offline support and fast repeat visits. */
-const VERSION = "adhkar-v19";
+const VERSION = "adhkar-v20";
 const V = "?v=19"; // keep in step with the ?v= numbers in make.html
 // Saved on install. The PDF and image libraries are left out: they are saved the first time they are used.
-const SHELL = ["./", "index.html", "make", "landing.css", "landing.js", "data/quotes.json", "make.html", "data/adhkar.json",
+const SHELL = ["./", "index.html", "make", "landing.css?v=5", "landing.js?v=7", "data/quotes.json", "make.html", "data/adhkar.json",
   "styles.css" + V, "design.js" + V, "export.js" + V, "i18n-extra.js" + V, "app.js" + V, "vendor/Sortable.min.js", "fonts/fonts.css",
   "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 

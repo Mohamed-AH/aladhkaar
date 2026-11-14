@@ -6,6 +6,24 @@
   <script>
     // Old links put the card in the hash of the home page. Send them on to the maker.
     if (/^#(card=|missing$|suggest$|contact$)/.test(location.hash)) location.replace("make" + location.hash);
+    // Pick the language before the page is drawn, so it doesn't show in English and then flip,
+    // and start loading the card pictures for that language straight away.
+    (function () {
+      var L = ["en", "ar", "ur", "id", "ms", "tr", "fr", "bn"], l = null, r = document.documentElement;
+      try { l = localStorage.getItem("aladhkaar:lang"); } catch (e) {}
+      if (L.indexOf(l) < 0) {
+        l = "en";
+        var n = navigator.languages || [navigator.language || "en"];
+        for (var i = 0; i < n.length; i++) { var c = String(n[i]).toLowerCase().split("-")[0]; if (L.indexOf(c) >= 0) { l = c; break; } }
+      }
+      r.lang = l; r.dir = l === "ar" || l === "ur" ? "rtl" : "ltr";
+      if (l !== "en") { r.classList.add("i18n-wait"); setTimeout(function () { r.classList.remove("i18n-wait"); }, 2500); }
+      ["1", "2"].forEach(function (k) {
+        var p = document.createElement("link");
+        p.rel = "preload"; p.as = "image"; p.href = "ready/preview-" + k + (l === "ar" ? "-ar" : "") + ".webp";
+        document.head.appendChild(p);
+      });
+    })();
   </script>
   <title>Adhkar Maker · Morning and evening adhkar card</title>
   <meta name="description" content="The morning and evening adhkar from the Quran and Sunnah, each with its reference, on a card you print and keep. Get the ready card or make your own. أذكار الصباح والمساء في بطاقة تطبعها.">
@@ -27,7 +45,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="preload" href="data/quotes.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
-  <link rel="stylesheet" href="landing.css?v=4">
+  <link rel="stylesheet" href="landing.css?v=5">
 </head>
 <body>
 
@@ -80,8 +98,8 @@
         <div class="ref"><span data-t="alsoImages">Also as images:</span> <a href="ready/aladhkaar-page-1.jpg" data-ar-href="ready/aladhkaar-page-1-ar.jpg" download data-t="page1">page 1</a> · <a href="ready/aladhkaar-page-2.jpg" data-ar-href="ready/aladhkaar-page-2-ar.jpg" download data-t="page2">page 2</a>. <span data-t="free">Free, no sign-up.</span></div>
       </div>
       <div class="stack">
-        <img data-src="ready/preview-1.jpg" data-ar-src="ready/preview-1-ar.jpg" alt="" width="900" height="1273">
-        <img data-src="ready/preview-2.jpg" data-ar-src="ready/preview-2-ar.jpg" alt="" width="900" height="1273" data-t-alt="previewAlt">
+        <img data-src="ready/preview-1.webp" data-ar-src="ready/preview-1-ar.webp" alt="" width="640" height="905" fetchpriority="high">
+        <img data-src="ready/preview-2.webp" data-ar-src="ready/preview-2-ar.webp" alt="" width="640" height="905" fetchpriority="high" data-t-alt="previewAlt">
         <span class="tag" data-t="tag">23 adhkar · A4 · 2 pages · with sources</span>
       </div>
     </div>
@@ -221,6 +239,6 @@
   </div>
 </footer>
 
-<script src="landing.js?v=6"></script>
+<script src="landing.js?v=7"></script>
 </body>
 </html>
