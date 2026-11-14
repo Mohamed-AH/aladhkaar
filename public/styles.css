@@ -508,3 +508,69 @@ html:not([dir="rtl"]):not([lang="bn"]) { --ui-font: "IBM Plex Sans", "IBM Plex S
 /* Hidden pages used to measure the adhkar before the real pages are drawn. */
 .page-probe { contain: strict; position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
 .page-probe > .card { position: absolute; top: 0; left: 0; }
+
+/* ---------- Step 1: choose a design ---------- */
+.start { display: none; }
+body[data-step="start"] .start { display: block; }
+body[data-step="start"] .layout, body[data-step="start"] .tabbar,
+body[data-step="start"] #btnShare, body[data-step="start"] #btnExport { display: none; }
+.start-inner { max-width: 1120px; margin: 0 auto; padding: 28px 24px 48px; }
+.start-title { font-size: 26px; font-weight: 600; margin: 0 0 6px; letter-spacing: -.01em; }
+.start-sub { margin: 0 0 24px; color: var(--ink-2); font-size: 15px; max-width: 46ch; }
+.start-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 22px 18px; }
+.tpl {
+  display: flex; flex-direction: column; gap: 10px; padding: 0; border: 0; background: none; color: inherit;
+  font: inherit; text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.tpl-face {
+  position: relative; display: block; aspect-ratio: 480 / 679; border-radius: 10px; overflow: hidden;
+  background: var(--surface-2); box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease;
+}
+.tpl-face img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tpl:hover .tpl-face, .tpl:focus-visible .tpl-face { transform: translateY(-3px); }
+.tpl:focus-visible { outline: none; }
+.tpl:focus-visible .tpl-face { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent); }
+.tpl:active .tpl-face { transform: scale(.98); }
+.tpl-name { font-size: 15px; font-weight: 500; padding-inline: 2px; }
+.tpl-cont .tpl-face {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; text-align: center;
+  background: linear-gradient(160deg, var(--c-bg, var(--surface)) 0 62%, var(--c-ac, var(--accent)) 62%);
+  border: 1px solid var(--line);
+}
+.tpl-cont .tpl-icon {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-ink);
+}
+.tpl-cont .tpl-icon svg { width: 24px; height: 24px; }
+.tpl-cont .tpl-face strong { font-size: 16px; font-weight: 600; color: var(--c-ink, var(--ink)); }
+.tpl-cont .tpl-face small { font-size: 13px; color: var(--c-ink2, var(--ink-2)); }
+@media (max-width: 560px) {
+  .start-inner { padding: 20px 16px 40px; }
+  .start-title { font-size: 22px; }
+  .start-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+}
+
+/* ---------- Step 2: quick editor, with all options one tap away ---------- */
+body.quick .adv { display: none !important; }
+.change-design {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 14px; margin-bottom: 16px;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; font-weight: 500; cursor: pointer;
+}
+.change-design svg { width: 20px; height: 20px; color: var(--accent); flex: none; }
+.change-design:hover { border-color: var(--accent); }
+.more-options {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; margin: 18px 0 0; padding: 12px 16px;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--accent-soft); color: var(--ink); font: inherit; text-align: start; cursor: pointer;
+}
+.more-options:hover { border-color: var(--accent); }
+.more-options .mo-text { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.more-options strong { font-weight: 600; color: var(--accent); }
+.more-options .mo-text > span { font-size: 13px; color: var(--ink-2); }
+.more-options .mo-chev { width: 20px; height: 20px; color: var(--accent); flex: none; transition: transform .2s ease; }
+.more-options[aria-expanded="true"] .mo-chev { transform: rotate(180deg); }
+body:not(.quick) .more-options .mo-text > span { display: none; }
+body:not(.quick) .panel .adv { animation: rise .35s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .tpl-face, .more-options .mo-chev { transition: none; }
+  body:not(.quick) .panel .adv { animation: none; }
+}

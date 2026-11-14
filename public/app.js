@@ -132,6 +132,18 @@
     bn: { colsLabel: "কলাম", colsAuto: "স্বয়ংক্রিয়", colRuleLabel: "কলামের মাঝে রেখা", cols3Off: "৩ কলামের জন্য A4 বা A3 লাগে, তাই এই পাতায় ২টি কলাম।", borderLabel: "বর্ডার", borderColorLabel: "বর্ডারের রং", borderAccent: "অ্যাকসেন্ট রং ব্যবহার করুন", borderWeightLabel: "পুরুত্ব", weightThin: "পাতলা", weightMedium: "মাঝারি", weightBold: "মোটা", borderGapLabel: "কিনারা থেকে দূরত্ব" }
   };
   Object.keys(ADD2).forEach(l => { if (I18N[l]) Object.assign(I18N[l], ADD2[l]); });
+  // Choose a design first, then the quick editor (drafts for ur, id, ms, tr, fr, bn: native review pending).
+  const ADD3 = {
+    en: { startTitle: "Choose a design", startSub: "Pick a starting point. You can change colors, text and everything else next.", continueCard: "Continue my card", continueSub: "Pick up where you left off", changeDesign: "Change design", moreOptions: "More options", moreOptionsSub: "Fonts, patterns, borders, figure, columns and more", fewerOptions: "Fewer options" },
+    ar: { startTitle: "اختر تصميمًا", startSub: "اختر نقطة البداية، ثم غيّر الألوان والنص وكل شيء كما تحب.", continueCard: "متابعة بطاقتي", continueSub: "أكمل من حيث توقفت", changeDesign: "تغيير التصميم", moreOptions: "خيارات أكثر", moreOptionsSub: "الخطوط والزخارف والإطارات والشخصية والأعمدة وغيرها", fewerOptions: "خيارات أقل" },
+    ur: { startTitle: "ڈیزائن منتخب کریں", startSub: "شروعات کے لیے ایک ڈیزائن چنیں۔ اس کے بعد رنگ، متن اور سب کچھ بدل سکتے ہیں۔", continueCard: "اپنا کارڈ جاری رکھیں", continueSub: "جہاں چھوڑا تھا وہیں سے", changeDesign: "ڈیزائن بدلیں", moreOptions: "مزید اختیارات", moreOptionsSub: "فونٹ، نقش، حاشیے، شکل، کالم اور مزید", fewerOptions: "کم اختیارات" },
+    id: { startTitle: "Pilih desain", startSub: "Pilih titik awal. Setelah itu warna, teks, dan lainnya bisa diubah.", continueCard: "Lanjutkan kartu saya", continueSub: "Teruskan dari terakhir kali", changeDesign: "Ganti desain", moreOptions: "Opsi lainnya", moreOptionsSub: "Huruf, pola, bingkai, figur, kolom, dan lainnya", fewerOptions: "Opsi lebih sedikit" },
+    ms: { startTitle: "Pilih reka bentuk", startSub: "Pilih titik mula. Selepas itu warna, teks dan lain-lain boleh diubah.", continueCard: "Teruskan kad saya", continueSub: "Sambung dari tempat anda berhenti", changeDesign: "Tukar reka bentuk", moreOptions: "Lagi pilihan", moreOptionsSub: "Fon, corak, bingkai, figura, lajur dan lain-lain", fewerOptions: "Kurang pilihan" },
+    tr: { startTitle: "Bir tasarım seçin", startSub: "Bir başlangıç seçin. Renkleri, metni ve her şeyi sonra değiştirebilirsiniz.", continueCard: "Kartıma devam et", continueSub: "Kaldığınız yerden devam edin", changeDesign: "Tasarımı değiştir", moreOptions: "Daha fazla seçenek", moreOptionsSub: "Yazı tipleri, desenler, çerçeveler, figür, sütunlar ve daha fazlası", fewerOptions: "Daha az seçenek" },
+    fr: { startTitle: "Choisissez un modèle", startSub: "Choisissez un point de départ. Vous pourrez ensuite changer les couleurs, le texte et tout le reste.", continueCard: "Reprendre ma carte", continueSub: "Là où vous vous étiez arrêté", changeDesign: "Changer de modèle", moreOptions: "Plus d’options", moreOptionsSub: "Polices, motifs, bordures, personnage, colonnes et plus", fewerOptions: "Moins d’options" },
+    bn: { startTitle: "একটি ডিজাইন বেছে নিন", startSub: "শুরু করার জন্য একটি বেছে নিন। পরে রং, লেখা ও সবকিছু বদলাতে পারবেন।", continueCard: "আমার কার্ড চালিয়ে যান", continueSub: "যেখানে থেমেছিলেন সেখান থেকে", changeDesign: "ডিজাইন বদলান", moreOptions: "আরও অপশন", moreOptionsSub: "ফন্ট, নকশা, বর্ডার, ফিগার, কলাম ও আরও", fewerOptions: "কম অপশন" }
+  };
+  Object.keys(ADD3).forEach(l => { if (I18N[l]) Object.assign(I18N[l], ADD3[l]); });
   // Interface languages. The adhkar on the card always stay in Arabic.
   const LANGS = [
     { id: "en", name: "English" }, { id: "ar", name: "العربية", rtl: true }, { id: "ur", name: "اردو", rtl: true },
@@ -175,6 +187,7 @@
   function load() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch (_) {}
+    hasSaved = !!saved;
     state = Object.assign(defaults(), clean(saved));
     fixOrder();
   }
@@ -260,6 +273,72 @@
   }
 
   const L = o => o[state.lang] || (NAMES[state.lang] || {})[o.en] || o.en;
+  const designPatch = d => ({
+    theme: d.id, accent: null, bg: null, font: d.font, titleFont: d.titleFont, pattern: d.pattern, place: d.place,
+    strength: d.strength, figure: d.figure, pose: d.pose || state.pose, figStyle: d.figStyle || state.figStyle,
+    textSize: d.textSize || state.textSize, multicolor: !!d.inks,
+    figSide: d.figSide || state.figSide, footer: d.footer || state.footer,
+    border: d.border || "none", borderColor: null, borderWeight: d.borderWeight || "medium", borderGap: d.borderGap || 26
+  });
+
+  /* ---------- Step 1: choose a design ---------- */
+  let hasSaved = false;
+  function buildStart() {
+    startBuilt = true;
+    const grid = $("#startGrid"); grid.innerHTML = "";
+    if (hasSaved) {
+      const th = currentTheme();
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "tpl tpl-cont"; b.setAttribute("role", "listitem");
+      b.style.cssText = `--c-bg:${th.bg};--c-ac:${th.accent};--c-ink:${th.ink || "inherit"};--c-ink2:${th.ink2 || "inherit"}`;
+      b.innerHTML = `<span class="tpl-face"><span class="tpl-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z M13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><strong>${esc(t("continueCard"))}</strong><small>${esc(t("continueSub"))}</small></span><span class="tpl-name">${esc(t("continueCard"))}</span>`;
+      b.addEventListener("click", () => showStep("edit"));
+      grid.append(b);
+    }
+    D.DESIGNS.forEach(d => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "tpl"; b.setAttribute("role", "listitem"); b.dataset.design = d.id;
+      b.innerHTML = `<span class="tpl-face"><img src="templates/${d.id}.webp?v=19" width="480" height="679" alt="" decoding="async" loading="lazy"></span><span class="tpl-name">${esc(L(d.name))}</span>`;
+      b.addEventListener("click", () => {
+        hasSaved = true;
+        Object.assign(state, designPatch(d)); save();
+        renderControls(); renderList();
+        cardDirty = true; showStep("edit");
+      });
+      grid.append(b);
+    });
+  }
+  // The card is drawn only while the editor is on screen (it can't be measured while hidden).
+  let cardDrawn = false, cardDirty = false;
+  function showStep(step) {
+    if (step === "start") buildStart();
+    document.body.dataset.step = step;
+    window.scrollTo(0, 0);
+    if (step === "edit") {
+      setView("edit");
+      if (!cardDrawn || cardDirty) {
+        const first = !cardDrawn;
+        cardDrawn = true; cardDirty = false;
+        if (first) enableDrag();
+        // Show the loading circle while the design's fonts arrive (a few seconds at most), then draw once.
+        const draw = () => { renderCard(); if (first) startPreviews(); };
+        if (cardFontsReady()) draw();
+        else { $("#pages").innerHTML = ""; Promise.race([loadCardFonts(), new Promise(ok => setTimeout(ok, 2500))]).then(draw); }
+      } else requestAnimationFrame(scaleCard);
+    }
+  }
+
+  /* ---------- Step 2: quick editor, or every option ---------- */
+  const MODE_KEY = "aladhkaar:editMode";
+  function setMode(full, remember) {
+    if (full && !fullBuilt) { buildFullControls(); renderControls(); }
+    document.body.classList.toggle("quick", !full);
+    const btn = $("#btnMore");
+    btn.setAttribute("aria-expanded", String(full));
+    $("#moreLabel").textContent = t(full ? "fewerOptions" : "moreOptions");
+    $("#moreLabel").dataset.i18n = full ? "fewerOptions" : "moreOptions";
+    if (remember) try { localStorage.setItem(MODE_KEY, full ? "full" : "quick"); } catch (_) {}
+  }
   // Font previews download their font only when scrolled near, not all at once on opening.
   // They also wait until the card is drawn, so they don't slow down the card's own fonts.
   let nearObserver = null, nearQueue = [];
@@ -300,6 +379,13 @@
       b.addEventListener("click", () => set({ theme: th.id, accent: null, bg: null }));
       sw.append(b);
     });
+    if (fullBuilt) buildFullControls();
+    if (startBuilt) buildStart();
+  }
+  // The full set of design controls is built the first time "More options" opens.
+  let fullBuilt = false, startBuilt = false;
+  function buildFullControls() {
+    fullBuilt = true;
     const dg = $("#designGallery"); dg.innerHTML = "";
     D.DESIGNS.forEach(d => {
       const tf = D.TITLE_FONTS.find(f => f.id === d.titleFont);
@@ -309,13 +395,7 @@
       b.style.cssText = `--d-bg:${d.bg};--d-ink:${d.titleInk || d.ink};--d-ac:${d.accent};--d-atmo:${d.atmo};--d-pat:${pt.make(d.accent)}`;
       whenNear(b, () => b.style.setProperty("--d-font", tf.css));
       b.innerHTML = `<span class="design-face"><span class="design-pat"></span><span class="design-word" lang="ar" dir="rtl">أذكار</span><span class="design-rule"></span></span><span class="design-name">${esc(L(d.name))}</span>`;
-      b.addEventListener("click", () => set({
-        theme: d.id, accent: null, bg: null, font: d.font, titleFont: d.titleFont, pattern: d.pattern, place: d.place,
-        strength: d.strength, figure: d.figure, pose: d.pose || state.pose, figStyle: d.figStyle || state.figStyle,
-        textSize: d.textSize || state.textSize, multicolor: !!d.inks,
-        figSide: d.figSide || state.figSide, footer: d.footer || state.footer,
-        border: d.border || "none", borderColor: null, borderWeight: d.borderWeight || "medium", borderGap: d.borderGap || 26
-      }));
+      b.addEventListener("click", () => set(designPatch(d)));
       dg.append(b);
     });
     const fontOpt = (list, f, sample, key, css) => {
@@ -727,6 +807,7 @@
 
   let minPagesNeeded = 1, layoutMemo = null, titleTimer = 0;
   function renderCard() {
+    if (!cardDrawn || document.body.dataset.step === "start") { cardDirty = true; return; }
     if (!cardFontsReady()) {
       const key = JSON.stringify(cardFontSpecs());
       if (!fontWait || fontWait.key !== key) {
@@ -999,6 +1080,12 @@
 
   /* ---------- Events ---------- */
   function bind() {
+    $("#btnChangeDesign").addEventListener("click", () => showStep("start"));
+    $("#btnMore").addEventListener("click", () => {
+      const full = document.body.classList.contains("quick");
+      setMode(full, true);
+      if (full) requestAnimationFrame(() => $("#btnMore").scrollIntoView({ behavior: "smooth", block: "start" }));
+    });
     $("#langSelect").addEventListener("change", e => { state.lang = e.target.value; try { localStorage.setItem("aladhkaar:lang", state.lang); } catch (_) {} save(); applyLang(); render(); });
     $("#titleInput").addEventListener("input", e => {
       const v = e.target.value;
@@ -1283,11 +1370,20 @@
   let currentName = null;
   const cardDisplayName = s => (s.title || "").trim() || DATA.collection.titles[s.mode || "both"][titleLang()];
 
+  function applyCardState(s) {
+    const lang = state.lang;
+    if (!s.v) s = Object.assign({ order: DATA.adhkar.map(a => a.id) }, LEGACY_DEFAULTS, s);
+    state = Object.assign(defaults(), clean(s), { lang });
+    fixOrder(); save(); applyLang(); renderControls(); renderList();
+    hasSaved = true;
+  }
   function applyCard(s) {
     const lang = state.lang;
     if (!s.v) s = Object.assign({ order: DATA.adhkar.map(a => a.id) }, LEGACY_DEFAULTS, s);
     state = Object.assign(defaults(), clean(s), { lang });
     fixOrder(); save(); applyLang(); render();
+    hasSaved = true;
+    showStep("edit");
   }
 
   function toast(msg) {
@@ -1393,14 +1489,23 @@
     bind();
     bindCards();
     setView("edit");
+    let full = false;
+    try { full = localStorage.getItem(MODE_KEY) === "full"; } catch (_) {}
+    setMode(full, false);
     renderControls(); renderList();
+    // A shared card or link opens straight in the editor; otherwise people choose a design first.
+    const direct = /^#(card=|edit)/.test(location.hash);
+    if (!direct) { showStep("start"); openSharedCard(); }
     document.body.classList.remove("booting");
-    // Wait for the card's fonts (at most a few seconds on a slow connection) so the card is drawn once.
-    await Promise.race([loadCardFonts(), new Promise(ok => setTimeout(ok, 2500))]);
-    renderCard();
-    openSharedCard();
-    startPreviews();
-    enableDrag();
+    // For a returning visitor the card's fonts start loading now, so "Continue" draws the card at once.
+    // A first-time visitor will pick a design first, so the pictures of the designs come first.
+    const fontsIn = direct || hasSaved ? Promise.race([loadCardFonts(), new Promise(ok => setTimeout(ok, 2500))]) : null;
+    if (direct) {
+      if (location.hash === "#edit") history.replaceState(null, "", location.pathname + location.search);
+      else { const m = location.hash.match(/^#card=([\w-]+)/); try { applyCardState(dec(m[1])); toast(t("sharedOpened")); } catch (_) { toast(t("badLink")); } history.replaceState(null, "", location.pathname + location.search); }
+      await fontsIn;
+      showStep("edit");
+    }
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
