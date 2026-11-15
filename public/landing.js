@@ -6,8 +6,8 @@
 
   const T = {
     en: {
-      title: "Adhkar Maker · Morning and evening adhkar card",
-      appName: "Adhkar Maker", makeCard: "Make a card", heroEyebrow: "Morning & evening adhkar",
+      title: "Aladhkaar · Morning and evening adhkar card",
+      appName: "Aladhkaar", makeCard: "Make a card", heroEyebrow: "Morning & evening adhkar",
       heroLede: "The adhkar of the morning and evening from the Quran and Sunnah, each with its reference, on a card you print and keep where you will see it.",
       getPdf: "Get the ready card (PDF)", makeOwn: "Make your own", inProgress: "You have a card in progress.", continueCard: "Continue your card",
       alsoImages: "Also as images:", page1: "page 1", page2: "page 2", free: "Free, no sign-up.",

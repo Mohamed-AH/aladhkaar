@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://aladhkaar.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://aladhkaar.com/make</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aladhkaar.com/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://aladhkaar.com/make</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://aladhkaar.com/ready/aladhkaar-morning-evening.pdf</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://aladhkaar.com/ready/aladhkaar-morning-evening-ar.pdf</loc><lastmod>2026-11-11</lastmod></url>
 </urlset>

@@ -1,0 +1,18 @@
+# Fails if public/llms-full.txt is out of date with public/data/adhkar.json.
+# Fix: run `node scripts/build-llms.mjs` and commit the result.
+name: Check generated files
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  llms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/build-llms.mjs
+      - run: git diff --exit-code -- public/llms-full.txt
