@@ -1,6 +1,6 @@
 # aladhkaar.com
 
-**Adhkar Maker** is a free web app for making your own morning and evening adhkar card. Pick the adhkar you want, put them in your order, choose a design, then print it, save it as a PDF or image, or share it.
+**Aladhkaar** (also called Adhkar Maker, صانع الأذكار) is a free web app for making your own morning and evening adhkar card. Pick the adhkar you want, put them in your order, choose a design, then print it, save it as a PDF or image, or share it.
 
 Live site: [aladhkaar.com](https://aladhkaar.com)
 
@@ -51,7 +51,11 @@ public/                  the static site
   data/adhkar.json       the adhkar, translations, counts and sources
   data/quotes.json       quotes shown on the landing page
   inbox.html             private inbox for contact messages
+  404.html               shown for any address that doesn't exist
+  robots.txt  sitemap.xml  llms.txt   for search engines and AI assistants
+  llms-full.txt          all adhkar as plain text for AI assistants (generated, don't edit)
   fonts/  icons/  ready/  vendor/
+scripts/build-llms.mjs   builds public/llms-full.txt from adhkar.json
 functions/               Cloudflare Pages Functions
   api/contact.js         receives contact form messages, saves them, emails you
   api/messages.js        feeds the inbox (needs the admin token)
@@ -63,7 +67,7 @@ wrangler.example.toml    copy to wrangler.toml (git-ignored) and add your databa
 deploy.sh                one-command update and deploy
 ```
 
-There is no build step. The site is plain HTML, CSS and JavaScript, and the libraries it uses (SortableJS, html-to-image, jsPDF) are vendored in `public/vendor/`.
+There is no build step. The one generated file is `public/llms-full.txt`: after changing `public/data/adhkar.json`, run `node scripts/build-llms.mjs` and commit the result (a GitHub check fails if you forget). The site is plain HTML, CSS and JavaScript, and the libraries it uses (SortableJS, html-to-image, jsPDF) are vendored in `public/vendor/`.
 
 ## Running locally
 

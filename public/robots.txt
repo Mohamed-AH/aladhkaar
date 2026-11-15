@@ -1,6 +1,36 @@
-User-agent: *
+# aladhkaar.com: search engines and AI assistants are welcome to read, quote and link to this site.
+# Content signals (https://contentsignals.org): search = show in search results,
+# ai-input = use in AI answers (with a link back), ai-train = use to train AI models.
+
+# AI assistants and AI search. Named here so a crawler that obeys only its own group still sees the rules.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Meta-ExternalAgent
+User-agent: MistralAI-User
+User-agent: DuckAssistBot
+User-agent: CCBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
 Disallow: /inbox
 Disallow: /inbox.html
 Disallow: /api/
+Disallow: /c/
+
+# Everyone else, including Googlebot and Bingbot.
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+Disallow: /inbox
+Disallow: /inbox.html
+Disallow: /api/
+Disallow: /c/
 
 Sitemap: https://aladhkaar.com/sitemap.xml

@@ -17,7 +17,7 @@
 
   const I18N = {
     en: {
-      appName: "Adhkar Maker", cardSection: "Card", titleLabel: "Title", timeLabel: "Time of day",
+      appName: "Aladhkaar", cardSection: "Card", titleLabel: "Title", timeLabel: "Time of day",
       modeBoth: "Both", modeMorning: "Morning", modeEvening: "Evening",
       showTranslation: "English translation", showCounts: "Repeat counts", showNumbers: "Numbering",
       showFullQuran: "Full text of Ayat al-Kursi", footerLabel: "Footer", footerNone: "None",

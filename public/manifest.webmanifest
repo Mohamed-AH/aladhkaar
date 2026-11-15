@@ -1,6 +1,6 @@
 {
-  "name": "Adhkar Maker · صانع الأذكار",
-  "short_name": "Adhkar",
+  "name": "Aladhkaar · صانع الأذكار",
+  "short_name": "Aladhkaar",
   "description": "Make your own printable adhkar card.",
   "start_url": "make",
   "scope": "./",
